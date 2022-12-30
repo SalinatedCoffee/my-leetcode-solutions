@@ -24,14 +24,14 @@ The worst-case graph for this traversal method will look like multiple 'diamond'
 
 ```mermaid
 graph TD;
-0->1;
-0->2;
-1->3;
-2->3;
+0-->1;
+0-->2;
+1-->3;
+2-->3;
 ```
 ... and so on.
 Each chain will double the number of paths, and 3 new nodes are introduced with each chain. Thus the time complexity is $O(2^(n/3))$.
-The worst-case space complexity is $O(2^(n/3)\times((n/3+1)/2))$ since there are $O(2^(n/3))$ paths of length $n/3$ and each path requires bookkeeping of all paths up to the destination node, which is basically $1 + 2 + \dotsb + (n/3)$.
+The worst-case space complexity is $O(2^{n/3}\times((n/3+1)/2))$ since there are $O(2^{n/3})$ paths of length $n/3$ and each path requires bookkeeping of all paths up to the destination node, which is basically $1 + 2 + \dotsb + (n/3)$.
 
 #### Conclusion
 This is obviously, not optimal - and it only works because `n <= 15`.  There are multiple avenues of optimization that can be taken such as the utilization of backtracking (current solution re-traverses a path that is known to be valid) and better bookkeeping of visited nodes instead of simply remembering *all* paths to a certain node.

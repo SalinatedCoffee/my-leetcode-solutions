@@ -1,12 +1,12 @@
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        # naively traverse all items in graph
-        # guaranteed to work because graph is acyclic
-        # B/DFS both work, will be using DFS here
-        # Push tuples ([path], cur) to stack,
+				# naively traverse all items in graph
+				# guaranteed to work because graph is acyclic
+				# B/DFS both work, will be using DFS here
+				# Push tuples ([path], cur) to stack,
 				# append [path]+cur to result list when destination is reached
 
-       	# DFS stack
+				# DFS stack
         stack = []
 				# List of correct paths
         ret = []
