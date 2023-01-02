@@ -8,7 +8,7 @@ The return value of `len(ret)` is the result of me being an idiot and not readin
 
 #### Conclusion
 
-The time complexity of the solution is $O(4^{mn})$, since it tries all four adjacent squares (even non-existant ones) for all squares on the grid. Not great, but works in this case because the grid size is very small.
+The time complexity of the solution is $O(4^{mn})$, since it tries all four adjacent squares (even non-existent ones) for all squares on the grid. Not great, but works in this case because the grid size is very small.
 
 Also, *always pay attention to solution specs.*
 
