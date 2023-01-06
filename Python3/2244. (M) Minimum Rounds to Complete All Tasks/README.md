@@ -5,13 +5,13 @@ The word that instinctively comes to mind upon encountering the word 'minimum' (
 For each difficulty, we determine if it can be completed in 1 round (2 or 3 remaining tasks), 2 rounds (4, 5, or 6 remaining tasks), or more. If we can exhaust the remaining tasks at the current difficulty in 1 or 2 rounds, we update the number of rounds accordingly and move on to the next difficulty. Else we do 3 tasks, update the number of rounds, and then check the remaining tasks again.  
   
 #### Conclusion
-Constructing the dictionary, `t_d.keys()`, and `t_d.values()` all takes $O(n)$ time. The `while` loop runs in $O(n/2)$ time, so overall this solution has a time complexity of $O(n). Memory-wise, the solution uses $O(2n) = O(n)$ space since a task list (of size $n$) comprised of tasks with unique difficulty levels will result in a dictionary of size $n$.  
+Constructing the dictionary, `t_d.keys()`, and `t_d.values()` all takes $O(n)$ time. The `while` loop runs in $O(n/2)$ time, so overall this solution has a time complexity of $O(n)$. Memory-wise, the solution uses $O(2n) = O(n)$ space since a task list (of size $n$) comprised of tasks with unique difficulty levels will result in a dictionary of size $n$.  
 
 
 ### `solution_2.py`
 This is just a touched-up version of the first solution, where instead of explicitly using a list of the dictionary's keys we iterate over the dictionary directly which removes the need of accessing the keys by index (eliminating the call to `t_d.keys()`). The validity check is also folded inside the loop since iterating over `list(t_d.values())` is redundant if we're iterating over `t_d` anyways.
 #### Conclusion
-Theoretically this solution has the same time and space complexity compared to the previous one, but practically it uses a lot less memory thanks to the removal of calls to `t_d.keys()` and `t_d.values()`. A good example of where asymptotic running time isn't everything, and obvious optimizations should be made whenever possible.  
+Theoretically this solution has the same time and space complexity compared to the previous one, but practically it uses a lot less memory thanks to the removal of calls to `t_d.keys()` and `t_d.values()`. Asymptotic running time isimportant - but in practice, other obvious optimizations should be made whenever possible.  
 
 
 ### `solution_3.py`
