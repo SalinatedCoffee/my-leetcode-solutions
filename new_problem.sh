@@ -10,7 +10,7 @@ fi
 # check supplied arguments
 case $# in
   3)
-    echo "Language not specified, defaulting to Python 3"
+    echo "Language not specified, assuming Python 3"
     lang="Python3"
   ;;
   4)
@@ -27,3 +27,5 @@ path="$lang/$1. ($2) $3"
 mkdir -p "$path"
 touch "$path/solution.py"
 cp README_template.md "$path/README.md"
+echo "$path"
+
