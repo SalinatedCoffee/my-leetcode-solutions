@@ -27,9 +27,9 @@ class Solution:
         else:
           slopes[slope] = 2
       # update max number accordingly
-      for slope in slopes:
-        if slopes[slope] > ret:
-          ret = slopes[slope]
+      cur = max(slopes.values())
+      if cur > ret:
+        ret = cur
    
     return ret
 
