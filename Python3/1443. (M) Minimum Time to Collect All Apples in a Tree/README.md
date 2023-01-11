@@ -4,9 +4,9 @@
 The main pitfall of this problem is taking the description at face value and treating it as a tree. While the inputs are *technically* [trees](https://en.wikipedia.org/wiki/Tree_(data_structure)), the node are not labeled in hierarchical order and solutions that do not keep this in mind will most likely fail (such as on inputs like `edges = [[0,3], [0,2], [1,2]]`).  
 ```mermaid
 graph TD;
-0-->2;
-0-->3;
-2-->1;
+0---2;
+0---3;
+2---1;
 ```
 Thinking about the input as graphs rather than trees make things (at least to me) much easier to reason about. The first logical course of action is to collate the edges in an adjacency list (in this case using a dictionary) for easier access. For the traversal we know we want to use DFS since we want to count a valid edge just once. During traversal, we can see that the sum of the traversal costs of all subtrees plus the number of 'valid' subtrees are enough to compute the total cost at that specific node. We can keep track of this value globally since we never traverse an edge twice (line 22, `self.valid_edges`). Using this logic, we let the return value of the recursive function to be whether a node is part of a valid path. Then we return `hasApple[current]` in the base case (current node is a leaf) and the logical or of the recursive calls on all neighbors. In the recursive step we also increment `self.valid_edges` by 2 whenever we encounter a neighbor in a valid path, since the graph is acyclic which in turn means all edges will be traversed twice.  
   
