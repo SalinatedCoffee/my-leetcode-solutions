@@ -1,0 +1,16 @@
+## 0062. (M) Unique Paths
+
+### `solution.py`
+You may be tempted to dive straight in and write a recursive solution that actually traverses all possible paths... until you realize that `1 <= m, n <= 100` and your solution runs in $O(2^{mn})$ time. So the naive approach clearly won't work given the input size, can we compute the number of valid paths without actually traversing them all? Well for one, we see that the robot can only move to a square on its right or to the one below. That means that we can gerally only move *towards* the bottom-rightmost square of the grid which also happens to be the goal we want to reach. Thus we can reason that the length of *all valid paths* is equal to `(m-1) + (n-1)`. While traversing a valid path at each square there are 2 choices we can make (move right or down) and we have to make this choice `min(m, n) - 1` times since moving `m-1` times down walking a certain path (or `n` times right, WLOG) means we cannot move down any further(`m` by `n` grid). This boils down to figuring out how many different ways we can select moving down `m-1` times among `m + n - 2` steps - in other words, ${}_(m+n-2)C_(m-1)$ (combination).
+The formula for combinations is ${}_nC_r = \frac{n!}{r!(n-r)!}$ which can be trivially computed. Python thankfully has a built-in function that computes factorials (`math.factorial()`) but this can also be trivially implemented if required. 
+
+#### Conclusion
+This solution runs in $O(n)$ time where $n$ is the length of all valid paths, since computing the factorial of $n$ takes $n$ steps to complete. The space complexity is $O(1)$. 
+  
+
+### `solution_2.py`
+The first solution used a mathematic approach to the problem, but we can also solve this problem using dynamic programming. At a certain square on the grid the number of paths to that square depends on those of the squares immediately preceding it; that is, the number of paths to the square above and to the left of it. So the number of paths to a square `grid[i][j]` is equal to `grid[i-1][j] + grid[i][j-1]`. We can also see that all squares on the topmost row and leftmost column have only 1 valid path that reaches them since the robot is only allowed to go either right or down. Thus, we initialize a 2D `m` by `n` list full of 1s (it's okay to do this since squares not in the aforementioned locations will be overwritten) and iterate over it row-first. After iteration the answer will be stored in `grid[m-1][n-1]`.  
+  
+#### Conclusion
+The solution takes $O(mn)$ time and space where $m, n$ are the height and width of the grid, respectively.  
+Curiously the first and second solution are very close in terms of performance, with this solution oftentimes *beating* the first solution in both categories, albeit by a slim margin. Since it reports the percentile of a solution ranked by milliseconds and 100 kilobytes (megabytes to the first decimal) LeetCode performance metrics (especially so for Python) have always had a large variance. On some simple problems it even fluctuates 20%+ between runs of the same solution, so these numbers should be taken with a small grain of salt. Perhaps this has to do with how LeetCode handles module imports in its backend, or it may be the case that multiplication is computationally more expensive than addition. Regardless, the observed behavior is pretty interesting.  
