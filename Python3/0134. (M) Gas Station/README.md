@@ -4,7 +4,7 @@
 Perhaps the easiest way is attempting a brute force approach where we try every station until we find a solution. This solution while technically correct(as in it will *eventually* find the correct solution), is horribly inefficient and TLEs some testcases.  
   
 #### Conclusion
-The time complexity of this solution is $O(n^2)$ since in the worst case, all starting stations($n$) will fail right before making the last trip($n$). The space complexity is $O(1)$ because `range()` in Python 3 uses an iterator instead of generating a list.  
+The time complexity of this solution is $O(n^2)$ since in the worst case, all starting stations($$n$$) will fail right before making the last trip($$n$$). The space complexity is $O(1)$ because `range()` in Python 3 uses an iterator instead of generating a list.  
   
 
 ### `solution.py`
