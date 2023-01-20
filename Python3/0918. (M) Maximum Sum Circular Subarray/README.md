@@ -19,6 +19,6 @@ A more efficient method exists that extends upon the idea of the first solution.
 One thing to note is that there are a few edge cases that involve a scenario where all elements are negative, but this can be trivially checked for after the 'normal' sum and minimums are computed.  
   
 #### Conclusion
-The previous solution already ran in optimal time ( $O(n)$), as does this solution. However this solution uses $O(1)$ space by forgoing the list of precomputed max value of `[i, n-1]` subarrays.  
+The previous solution already ran in optimal time ( $O(n)$ ), as does this solution. However this solution uses $O(1)$ space by forgoing the list of precomputed max value of `[i, n-1]` subarrays.  
   
 
