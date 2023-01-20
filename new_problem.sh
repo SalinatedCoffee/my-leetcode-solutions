@@ -23,7 +23,17 @@ case $# in
   ;;
 esac
 
-path="$lang/$1. ($2) $3"
+padded=$1
+if [ ${#1} -ne 4 ]
+then
+  pad=$((4-${#1}))
+  for ((i=0; i<pad; i++))
+  do
+    padded="0$padded"
+  done
+fi
+
+path="$lang/$padded. ($2) $3"
 mkdir -p "$path"
 touch "$path/solution.py"
 cp README_template.md "$path/README.md"
