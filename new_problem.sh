@@ -23,6 +23,7 @@ case $# in
   ;;
 esac
 
+# pad left with 0 if problem number is smaller than 4 digits
 padded=$1
 if [ ${#1} -ne 4 ]
 then
@@ -33,6 +34,7 @@ then
   done
 fi
 
+# construct path and set up problem directory
 path="$lang/$padded. ($2) $3"
 mkdir -p "$path"
 touch "$path/solution.py"
