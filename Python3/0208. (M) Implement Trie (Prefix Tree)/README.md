@@ -4,5 +4,5 @@ Implementing a trie for an alphabet of lowercase English letters is trivial. We 
   
 #### Conclusion
 Insertions and lookups take $O(n)$ time, where $n$ is the length of the word. The space complexity is $O(26^n)$ since a node can have at most 26 children, and the depth of a trie is $n$.  
-  
+This would be a good problem to revisit, as there are further optimizations that can be made to improve performance.  
 
