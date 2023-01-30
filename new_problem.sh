@@ -3,7 +3,7 @@
 # print usage
 if [[ ( $@ == "--help" ) || ( $@ == "-h" ) ]]
 then
-  echo "Usage: $0 [number] [difficulty] [title] [language]"
+  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language]"
   exit 0
 fi
 
@@ -18,10 +18,16 @@ case $# in
   ;;
   *)
     echo "Expected 3-4 arguments, got $# instead"
-    echo "Usage: $0 [number] [difficulty] [title] [language]"
+    echo "Usage: $0 [number] [difficulty(E|M|H)] [title] [language]"
     exit 0
   ;;
 esac
+
+if ! [[ "$2" == [EMH] ]]
+then
+  echo "Got $2 as difficulty, expected E(asy)|M(edium)|H(ard)"
+  exit 0
+fi
 
 # pad left with 0 if problem number is smaller than 4 digits
 padded=$1
