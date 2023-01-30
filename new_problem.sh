@@ -40,10 +40,13 @@ then
   done
 fi
 
+# get relative path to this script
+top_path="$(dirname -- "${BASH_SOURCE[0]}")"
+
 # construct path and set up problem directory
-path="$lang/$padded. ($2) $3"
+path="$top_path/$lang/$padded. ($2) $3"
 mkdir -p "$path"
 touch "$path/solution.py"
-cp README_template.md "$path/README.md"
+cp "$top_path/README_template.md" "$path/README.md"
 echo "$path"
 
