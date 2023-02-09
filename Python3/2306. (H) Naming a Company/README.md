@@ -1,0 +1,8 @@
+## 2306. (H) Naming a Company
+
+### `solution.py`
+A naïve way of solving this problem would be to simply compare all pairs of words. However this method is most likely to exceed the time limit due to it taking $O(n^2)$ time to run. We can speed things up by skipping pairs that start with the same letter, which we can accomplish by creating a mapping from the first letter (prefix) of a word to a set of the rest of the letters (suffix). Now we need to figure out how to count the number of valid pairs given two prefixes. After switching prefixes *both* words must not already be in `ideas`. In other words, the suffixes of each word must not be in the suffix set of the prefixes of the other word (`word1[1:] not in prefixes[word2[0]] and word2[1:] not in prefixes[word1[0]]`). Conversely word pairs that are invalid will have at least one suffix that is included in the other prefixes' suffix set, which means the suffix exists in both suffix sets. The set of such suffixes is simply the intersection of the two suffix sets. Naturally the number of valid pairs can be calculated by multiplying the number of suffixes that are exclusive to one set, or `(len(set1)-len(set_intersection)) * (len(set2)-len(set_intersection))`. We also need to remember to multiply this value by 2 since reversed pairs should be counted separately.  
+
+#### Conclusion
+The time complexity for this solution is $O(n)$ where $n$ is the length of `ideas`. This is because the two outer `for` loops at most runs $26^2$ times and `set.intersection(s1, s2)` takes $O(\min(s1, s2))$ time to run. `s1` and `s2` can never hold more than $n/2$ elements since all strings in `ideas` are unique, thus $O(26^2n/2) = O(n)$. In terms of memory this solution uses $O(n)$ space.  
+  
