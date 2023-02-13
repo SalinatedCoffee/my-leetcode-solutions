@@ -29,6 +29,7 @@ class Solution:
       adj = [(y-1,x),(y,x-1),(y+1,x),(y,x+1)]
       for c in adj:
         # queue node if valid coords and not visited
+        # note that the same coords can be pushed into queue multiple times
         if 0 <= c[0] < n and 0 <= c[1] < n and not visited[c[0]][c[1]]:
           nodes.append((c[0], c[1], d))
 

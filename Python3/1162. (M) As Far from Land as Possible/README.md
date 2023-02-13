@@ -1,9 +1,16 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 1162. (M) As Far from Land as Possible
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+We are asked to find the maximum length of the manhattan distance of the *closest* land square from a water square. The shortest distance can be found using BFS, where a 'node' representing a certain square has 4 adjacent nodes that corresponds to the 4 squares surrounding it. The diagonal squares are excluded here because the manhattan distance to those would be 2, not 1. One problem with this approach is that we must 'wait' for a BFS traversal to end before starting a fresh run on a different water square. For example, imagine a water square that is surrounded by 4 other water squares. When we run BFS on these squares while sharing the same set of visited nodes, the middle water square would immediately exit but would have been further away from a land square than its 4 neighbors. This can be avoided by thinking in the opposite direction, where the source is a land square and the destination a water square. So, we first look through `grid` to find the coordinates of all land squares which we push into a queue with a distance of `0`. We then implement a basic BFS traversal that pops a node and then pushes the 4 neighboring nodes back into the queue until the queue is empty. This also ensures that the traversal examines all squares in level order; that is, it will first look at all land squares, then all squares that are 1 distance away from any land nodes, and so on. We then update the max distance any time we encounter an unvisited node, and return it after the traversal has completed.  
+Also note that we can mark a water square as visited as soon as it is visited since BFS guarantees that the path from a land square to a water square is the shortest path, and the problem asks for the distance to the *closest* land square.  
+#### Conclusion
+This solution has a time and space complexity of $O(n^2)$, where $n$ is the side length of `grid`. BFS takes $O(n^2)$ time (running BFS on multiple sources means we touch all $n^2$ nodes once), and `visited` uses $O(n^2)$ space.  
+  
+
+### `solution_2.py`
+We can also tackle this problem using dynamic programming - the trick is realizing that we must iterate diagonally *twice* in opposite directions to account for approaching a square from all 4 directions. So we first intialize a 2D list `dp` with the 'maximum' manhattan distance, and then iterate from the top-left towards the bottom-right. If the corresponding square in `dp` is a land square, the distance is of course zero. If not, we choose the smallest value of 3 squares - the current one, the one above, or the one to the left. After reaching the bottom-right we iterate across `dp` in the opposite direction, using the same strategy to compute the value of `dp`(using squares to the right and the bottom instead). The largest value of `dp` is the desired value. If it is `0` instead, it means that `grid` is comprised entirely of land squares. If it is the maximum distance we initialized `dp` with, it means that `grid` has only water squares.  
 
 #### Conclusion
-\<Content\>  
+Like the first solution this algorithm takes $O(n^2)$ time and uses $O(n^2)$ space. In practice however it will run faster and use less space since it only interacts with one 2D list.  
   
 
