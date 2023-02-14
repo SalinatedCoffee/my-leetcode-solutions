@@ -1,9 +1,10 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 105. (M) Construct Binary Tree from Preorder and Inorder Traversal
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+Before jumping into the problem, we first need to remind ourselves that a preorder traversal traverses in `NLR` order and inorder in `LNR` order. We are asked to *reconstruct* a tree given pre and inorder traversals of it, and intuition tells us that we could take a recursive approach to this problem. First of all, we need to identify the recursive pattern of both traversals. For preorder we know that the first item is the parent node, where the subsequent nodes may or may not be descendants of it. Visually it would look something like this: `[N[L..][R..]...]` where the left and right subtree range can be empty. For inorder, given a node the left and right-hand sides would correspond to its left and right subtrees respectively. So `[[..L..]N[..R..]]`, where the left and right ranges can be empty. By this point we can see that we need to recursively construct the left subtree first since we will not be able to find the node for the root's right subtree unless we 'exhaust' all of the nodes from the left subtree. This is because we can only rely on the preorder traversal to find that node, and in order to do so we need to know the range of the left subtree.  
+So, we define a recursive function that takes a range in `inorder` and returns the root of the tree generated from nodes within that range. Instead of messing with multiple return values we initialize `pivot` with the `nonlocal` keyword, so that the variable is shared between nested function calls. When the function is called it first validates the range. If the range passes the check, it initializes a `TreeNode` with the value `preorder[pivot]` then we retrieve the inorder position of that value, advance `pivot` by 1, and recurse on the left and right inorder sublists around the inorder position we retrieved earlier. By the time the left subtree has been reconstructed `pivot` will point to the first preorder node in the right subtree, ensuring that the correct node is used at the beginning of the recursion.  
+Now we may simply set the initial value of `pivot` as `0`, and return the the value of `recurse(0, len(inorder)-1)`.  
 
 #### Conclusion
-\<Content\>  
+The solution has a time and space complexity of $O(n)$, where $n$ is the number of nodes in the tree. `recurse()` is called exactly once for every node and uses $O(1)$ time; the recursion stack will at most be $n$ deep. Constructing `io_n2i` will also take $O(n)$ time and $O(n)$ space.  
   
-
