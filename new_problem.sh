@@ -44,7 +44,7 @@ fi
 top_path="$(dirname -- "${BASH_SOURCE[0]}")"
 
 # construct path and set up problem directory
-path="$top_path/$lang/$padded. ($2) $3"
+path="$top_path/Problems/$padded. ($2) $3/$lang"
 mkdir -p "$path"
 touch "$path/solution.py"
 cp "$top_path/README_template.md" "$path/README.md"
