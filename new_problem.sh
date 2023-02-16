@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: Add support for adding new language to solved problem
+
 # print usage
 if [[ ( $@ == "--help" ) || ( $@ == "-h" ) ]]
 then
