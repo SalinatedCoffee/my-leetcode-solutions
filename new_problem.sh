@@ -3,7 +3,7 @@
 # print usage
 if [[ ( $@ == "--help" ) || ( $@ == "-h" ) ]]
 then
-  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language]"
+  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language (Python3|Java)]"
   exit 0
 fi
 
@@ -18,7 +18,7 @@ case $# in
   ;;
   *)
     echo "Expected 3-4 arguments, got $# instead"
-    echo "Usage: $0 [number] [difficulty(E|M|H)] [title] [language]"
+    echo "Usage: $0 [number] [difficulty(E|M|H)] [title] [language (Python3|Java)]"
     exit 0
   ;;
 esac
