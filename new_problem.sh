@@ -5,7 +5,7 @@
 # print usage
 if [[ ( $@ == "--help" ) || ( $@ == "-h" ) ]]
 then
-  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language (Python3|Java)]"
+  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language (Python3|Java|MySQL)]"
   exit 0
 fi
 
@@ -20,7 +20,7 @@ case $# in
   ;;
   *)
     echo "Expected 3-4 arguments, got $# instead"
-    echo "Usage: $0 [number] [difficulty(E|M|H)] [title] [language (Python3|Java)]"
+    echo "Usage: $0 [number] [difficulty(E|M|H)] [title] [language (Python3|Java|MySQL)]"
     exit 0
   ;;
 esac
@@ -48,7 +48,25 @@ top_path="$(dirname -- "${BASH_SOURCE[0]}")"
 # construct path and set up problem directory
 path="$top_path/Problems/$padded. ($2) $3/$lang"
 mkdir -p "$path"
-touch "$path/solution.py"
-cp "$top_path/README_template.md" "$path/README.md"
+
+# change solution file extension based on supplied language
+case $lang in
+  "Python3")
+    ext="py"
+  ;;
+  "Java")
+    ext="java"
+  ;;
+  "MySQL")
+    ext="sql"
+  ;;
+esac
+touch "$path/solution.$ext"
+
+# for now, add expanations for all languages other than Java
+if ! [[ $ext == "java" ]]
+then
+  cp "$top_path/README_template.md" "$path/README.md"
+fi
 echo "$path"
 
