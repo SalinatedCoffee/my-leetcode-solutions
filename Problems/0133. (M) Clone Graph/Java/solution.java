@@ -23,7 +23,7 @@ class Solution {
         Node adj = cur.neighbors.get(i);
         // adj. node not cloned yet
         if (!copied.containsKey(adj.val)) {
-          copied.put(adj_val, new Node(adj.val));
+          copied.put(adj.val, new Node(adj.val));
           nodes.push(cur.neighbors.get(i));
         }
         // add edge between cloned nodes
