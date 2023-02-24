@@ -1,0 +1,11 @@
+## 1675. (H) Minimize Deviation in Array
+
+### `solution.py`
+The first thing to realize is that only one out of two operations can be performed given a number; *multiply* by 2 if it is **odd**, or *divide* by 2 if it is **even**. So an even number cannot possibly be increased, but it may be decreased until it becomes an odd number at which point it can only be increased once (because it becomes an even number after the increase). Thus if we first modify all values until they reach their 'maximum', we can only reduce them until there are no more values that can be reduced(only odd values remain), which greatly simplifies things. With that portion of the problem simplified, we now want to reduce the difference between the largest and smallest number. Obviously we want to be able to retrieve these values as quickly as possible, and we know that priority queues support these operations using optimal time. Since the values can only be decreased, we must use a max heap since we have to stop reducing numbers once the largest number cannot be reduced any further.  
+Based on these ideas, we can use a max heap (with the sign flip hack for Python `heapq`s) and keep track of the smallest value separately. While the value at the front of the heap is even, we check if the difference between that value and the smallest is smaller than the difference we have now and update accordingly. The smallest value is also updated as required, and we take the largest value, divide it by 2, then push it back in the heap.  
+After exiting, we need to remember to do one last comparison between the two differences to cover the case where the largest reduced number is odd.  
+  
+#### Conclusion
+The time complexity for this solution is $O(n\log n\log m)$, where $n$ is the length of `nums` and $m$ is the largest value in `nums`. Inserting into a heap takes $O(\log n)$ time, and this is performed $O(n)$ times. A number $i$ in `nums` is multiplied by 2 at most once, and then can be divided $\log i$ times (this may not be immediately obvious as it is spread over all iterations of the `while` loop). Note that this factor will be constant for other languages that have a fixed size for integers (eg. 32 if integers are 4 bytes big).  
+`ascd` will contain all values of `nums`, so the space complexity is $O(n)$.  
+
