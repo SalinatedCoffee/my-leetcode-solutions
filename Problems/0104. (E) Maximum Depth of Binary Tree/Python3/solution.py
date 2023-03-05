@@ -1,23 +1,18 @@
 class Solution:
   def maxDepth(self, root: TreeNode) -> int:
-    # iterative DFS
-
+    # recursive solution
+    
     # sanity check
-    if not root:
+    if root is None:
       return 0
     
-    depth = 0
-    nodes = []
-    nodes.append((root, 1))
-    while nodes:
-      cur, c_depth = nodes.pop()
-      if not cur:
-        continue
-      # current node is leaf
-      if not cur.left and not cur.right:
-        depth = max(depth, c_depth)
-      nodes.append((cur.left, c_depth+1))
-      nodes.append((cur.right, c_depth+1))
+    # recurse on children
+    left = self.maxDepth(root.left)
+    right = self.maxDepth(root.right)
     
-    return depth
+    # pick larger subtree
+    if left > right:
+      return left + 1
+    else:
+      return right + 1
 
