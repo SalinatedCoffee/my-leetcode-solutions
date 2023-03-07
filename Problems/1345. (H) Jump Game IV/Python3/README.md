@@ -10,7 +10,7 @@ The time and space complexity is $O(n^2)$, where $n$ is the length of `arr`. Thi
 
 
 ### `solution.py`
-The previous algorithm times out but is still corrects, which tells us that with a few optimizations we hopefully can come up with an optimal solution. Taking the worst case example that was mentioned previously, we notice that we do not have to consider jumps between same values once that value has been processed. For example given an array `[1, 1, 1, 1]`, once we jump from index `0` and move on to index `1`, we can skip jumping to index `0` (and `2`, `3`) as those indices have already been added to `nodes` and is planned for traversal later. So, all we have to do is to simply avoid this redundant behavior which in this problem is implemented by deleting the key-value pair for the key `arr[i]` in dictionary `v2i`.  
+The previous algorithm times out but is still correct, which tells us that with a few optimizations we hopefully can come up with an optimal solution. Taking the worst case example that was mentioned previously, we notice that we do not have to consider jumps between same values once that value has been processed. For example given an array `[1, 1, 1, 1]`, once we jump from index `0` and move on to index `1`, we can skip jumping to index `0` (and `2`, `3`) as those indices have already been added to `nodes` and is planned for traversal later. So, all we have to do is to simply avoid this redundant behavior which in this problem is implemented by deleting the key-value pair for the key `arr[i]` in dictionary `v2i`.  
   
 #### Conclusion
 This solution has a time and space complexity of $O(n)$, as we avoid re-traversing nodes which ensures that we move through an index exactly once.  
