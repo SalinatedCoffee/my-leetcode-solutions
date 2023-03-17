@@ -1,6 +1,8 @@
 class Solution:
   def getSum(self, a: int, b: int) -> int:
     # bit manipulation
+
+    # limit integers to 4 bytes
     mask = 0xFFFFFFFF
     
     # half adder logic
