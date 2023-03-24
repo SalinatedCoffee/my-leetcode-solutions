@@ -5,7 +5,7 @@ While the problem looks complicated at first glance, it is actually quite simple
 The implementation is also relatively simple, and it involves maintaining a `set` of the original directed edges. One thing to keep in mind is that the graph may have cycles, and thus we need to perform BFS instead of DFS in order to get the *minimum* number of redirections. For example, consider the graph:  
 ```mermaid
 graph TD;
-0<--1;
+1-->0;
 1-->2;
 2-->3;
 3-->4;
