@@ -11,7 +11,6 @@ class Solution:
       adj[u].append(v)
       adj[v].append(u)
     
-    total = 0
     counts = []
     visited = set()
     # perform DFS starting at each node
@@ -32,10 +31,9 @@ class Solution:
       # record size if disconnected component
       if count:
         counts.append(count)
-        total += count
     
     # nC2, all possible pairs of nodes
-    total = total*(total-1)//2
+    total = n*(n-1)//2
     # subtract connected pairs
     for count in counts:
       total -= count*(count-1)//2
