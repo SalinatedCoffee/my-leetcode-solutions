@@ -14,7 +14,6 @@ class Solution {
       adj[edges[i][1]].add(edges[i][0]);
     }
 
-    long total = 0;
     ArrayList<Long> counts = new ArrayList();
     Set<Integer> visited = new HashSet();
     // perform DFS starting at each node
@@ -34,14 +33,12 @@ class Solution {
           nodes.push(nxt);
       }
       // record size if disconnected component
-      if (count != 0) {
+      if (count != 0)
         counts.add(count);
-        total += count;
-      }
     }
 
     // nC2, all possible pairs of nodes
-    total = total*(total-1)/2;
+    long total = (long) n*(n-1)/2;
     // subtract connected pairs
     for (long count: counts)
       total -= count*(count-1)/2;
