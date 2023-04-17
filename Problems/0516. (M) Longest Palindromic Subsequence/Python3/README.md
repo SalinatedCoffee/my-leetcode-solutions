@@ -10,8 +10,9 @@ This solution has a running time of $O(n^2)$ where $n$ is the length of `s`. The
 
 
 ### `solution_2.py`
-The previous solution first made a call to `lps(0,n-1)`, which then worked itself *down* the recursive tree - a *top-down* dynamic programming approach. We may also come up with a *bottom-up* DP solution by considering the smallest sub-problems first and gradually building up to the desired problem. The recursive relationship and remembering-previously-computed-values strategy still stands. The difference here is that   
+The previous solution first made a call to `lps(0,n-1)`, which then worked itself *down* the recursive tree - a *top-down* dynamic programming approach. We may also come up with a *bottom-up* DP solution by considering the smallest sub-problems first and gradually building up to the desired problem. The recursive relationship and remembering-previously-computed-values strategy still stands, but this time we will compute the values for `dp` in the opposite direction. Again, we initialize a 2D list `dp` where `dp[i][j]` contains the value of `lps(i,j)`. We want the value that will be stored in `dp[0][n-1]`, so we start by computing the value of `dp[n-1][n-1]` and then fill in the values upwards, row-first. Notice that the values inside the triangular region of `dp` bound by indices `0,0`, `n-1,0`, and `n-1,n-1` will not be used as the substring represented by those indices will be invalid (or redundant, depending on how `lps()` is implemented. For example, what should `lps(2,7)` return?).  
+We can easily implement this using nested loops, where the outer loop iterates over the rows of `dp` in reverse order and the inner loop iterates over the columns of the row from the outer loop. However, we can see that the computation of `dp[i][j]` only relies on values from `dp[i+1]` and `dp[i]`. Thus we may save on memory usage by only preserving the row from the previous iteration of the outer loop.  
 
 #### Conclusion
-\<Content\>  
+The time complexity is $O(n^2)$ where $n$ is the length of `s`. The space complexity is $O(n)$, as we only keep two lists of length $n$.  
   
