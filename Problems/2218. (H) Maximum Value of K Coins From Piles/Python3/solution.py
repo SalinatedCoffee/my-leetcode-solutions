@@ -7,7 +7,7 @@ class Solution:
     dp = [[0] * (k+1) for _ in range(n+1)]
 
     for i in range(1, n+1):
-      for coins in range(1, n+1):
+      for coins in range(0, k+1):
         c_sum = 0
         for c_coins in range(0, min(len(piles[i-1]), coins)+1):
           if c_coins > 0:
