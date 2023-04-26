@@ -1,7 +1,7 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 879. (H) Profitable Schemes
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+  
 
 #### Conclusion
 \<Content\>  
