@@ -1,0 +1,9 @@
+## 879. (H) Profitable Schemes
+
+### `solution.py`
+Trying all possible schemes will obviously take too much time. Examining the problem further it seems like it could be reduced into smaller subproblems, so we will try tackling the problem with dynamic programming - more specifically, a top-down approach that uses recursion and memoization. First we need to identify the parameters that are required to represent a specific state. For each state we would have to track which crime is currently being considered, the number of members that are available, and the total amount of profit that has been raised so far. We want the value of the state that considers the entire input, so using these parameters the state we want would be `recurse(0, 0, 0)` where `recurse()` takes 3 arguments corresponding to the three parameters we discussed earlier, in that exact order.  
+Now that we have established the identifying parameters the next step is determining the transitions between states. This is relatively straightforward, as we can either commit the crime currently being considered or not. However the key here is realizing that we do not care about the exact amount of the generated profit as long as it is *larger than* `minProfit`. Thus we can cut down on the number of states we need to memoize by setting the current profit to `minProfit` if it is larger than it(the `min()` call in line 17).  
+
+#### Conclusion
+The time complexity is $O(mnk)$ where $m$ is the size of `group`, $n$ is simply `n`, and $k$ is `minProfit`. This is because the number of states depend on 3 parameters, each of which correspond to the aforementioned arguments. The space complexity is also $O(mnk)$ since the dimensions of `dp` will be $m\times n\times k$, and the depth of the recursion stack will be $O(m)$ (since some level `i` of the recursion tree corresponds to the `i`th crime).  
+  
