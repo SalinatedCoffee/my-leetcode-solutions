@@ -1,9 +1,11 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 1579. (H) Remove Max Number of Edges to Keep Graph Fully Traversable
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+A try-removing-each-edge approach would not be efficient as there is no efficient way of checking whether two verticies are connected or not. Instead we can work in the opposite direction, adding each edge until the graph is connected. With this approach we would need to devise a way to guarantee that the number of edges counted is the minimum number of edges required to keep the graph connected, as the total number of edges subtracted by the minimum number of required edges would be the maximum number of removable edges. Edges of type 3 can be traversed by both Alice and Bob, so removing an edge of this type can potentially have the same effect at removing two edges; one each for Alice and Bob. We want to remove the *most* number of edges while leaving the graph traversable by everyone, thus it is optimal to remove edges of types 1 and 2 first before type 3 - which means we should generate a graph starting with edges of type 3 first.  
+The generated graph will be represented by a union-find data structure since it supports fast set union and lookup operations. The method `UnionFind.uunion(a, b)` will perform a set union on elements `a` and `b`, returning `True` if a merge was performed and `False` otherwise. This behavior is crucial since we want to keep the number of added edges to a minimum and thus need to avoid adding redundant edges. `UnionFind` also keeps track of the number of disconnected components, which lets us access this value in constant time instead of counting them each time by traversing over all elements in the union-find.  
+Now we can initialize a `UnionFind` object for Alice and Bob, and process the type 3 edges first while counting the number of edges that have been actually added to either of Alice or Bob's graph. We then move on to types 1 and 2 (order is irrelevant), after which we check whether Alice and Bob's `UnionFind` objects only contain one component (which would mean that all nodes can be reached). If yes, we subtract the number of added edges from the number of total edges. Otherwise, we return `-1` as we cannot remove an edge without creating a disconnected component in the original graph.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(\alpha(n)\cdot n + n\log n)$ where $n$ is the length of `edges`. It takes $O(n\log n)$ time to sort `edges`, and the sorted list is iterated over once where a merge operation that takes $O(\alpha(n))$ is performed every iteration. The space complexity is $O(3n)$ since `alice` and `bob` takes up $O(n)$ space each, and sorting `edges` also uses $O(n)$ memory.  
   
 
