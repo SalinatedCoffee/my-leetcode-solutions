@@ -1,0 +1,10 @@
+## 1498. (M) Number of Subsequences That Satisfy the Given Sum Condition
+
+### `solution.py`
+The brute force approach involves checking every possible subsequences of `nums`, of which there are $2^n$ of where $n$ is the length of `nums`. This is obviously not desirable, and we should try and devise a faster solution. First, we realize that only the minimum and maximum values are considered for some subsequence. Hence if we can somehow guarantee that all other numbers are between the min/max values of a subsequence, we can trivially count the number of valid subsequences. If we sort the list beforehand, we can easily compute the number of valid subsequences given a valid number pair. For example, let `nums = [1, 3, 5, 7, 9]` and `target = 8`. Considering a valid pair `1, 7`, we know that all numbers in the subarray `nums[1:3]` are in the range `(1, 7)` since `nums` is sorted in ascending order. We know the indices of `1` and `7`, and thus the number of elements in the range bound by them. The number of valid subsequences bound by `1` and `7` is $2^{3-1} = 2^2 = 4$, which we can easily verify by enumerating the subsequences(`[1, 7]`, `[1, 3, 7]`, `[1, 5, 7]`, and `[1, 3, 5, 7]`).  
+Returning to the original problem, we realize that we can keep two pointers - one that points to the minimum value of the subsequence, and another that points to the maximum. Then we can increment the lower pointer and check whether the pair is valid given `target`. If it is, we simply count the number of valid subsequences and add it to the return variable. If not, we decrement the higher pointer until we encounter a pair that is valid.  
+  
+#### Conclusion
+The time complexity is $O(n\log n)$ where $n$ is the length of `nums`. Incrementing `l` takes $O(n)$ time, but `nums` is sorted beforehand which takes $O(n\log n)$ time. The space complexity is $O(n)$ since the built-in sorting algorithm (Timsort) uses $O(n)$ space (for the Java solution, the precomputed array `pow` is also $n$ long).  
+  
+
