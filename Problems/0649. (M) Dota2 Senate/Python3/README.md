@@ -1,9 +1,10 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 649. (M) Dota2 Senate
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+The problem description mentions that each senator "is smart enough and will play the best strategy for their own party". Naturally the question now would be, what exactly is the best strategy? By intuition it would seem that the best course of action would be to ban a senator from the opposing party that has the earliest turn. Let's try verifying this strategy before implementing it in code. Assume that `senate = "DDRRR"`. At first glance it looks like the Radiant party would win since they have more senators. However when we examine the problem step by step, we see that the Dire party will win since two Radiant senators and one Dire senator will be banned in the first round. In the next round the remaining Dire senator's turn comes first, where the last Radiant senator will be banned, leaving the Dire senator announcing victory in the third round. Let's try another example; let `senate = "DRDR"`. If the first senator bans the last senator (as opposed to banning the second according to the hypothesized strategy) the second senator can ban the third senator. In the next round the first senator will ban the second senator, leaving one Dire senator when victory is decided. However if the second senator was banned first instead, there would have been two Dire senators left instead of one. Here we only have 4 senators so it may not be as obvious, but we can argue that a strategy that preserves the most number of senators is the most optimal.  
+Now we need to implement this strategy in code. We initialize two queues, each containing the indices of senators from the two parties in ascending order. We pop the first item from each of the queues, which will give us the senators with the earliest turns from each party. If one senator has a smaller index than the other, they can ban the other senator by not pushing them back into the appropriate queue. When we push the banning senator back into their queue, we add the length of `senate` to the index since we want to preserve the relative positions of the senators across different rounds. We continue these steps until either queue is empty, at which point we return the party that still has senators remaining.  
 
 #### Conclusion
-\<Content\>  
+The time complexity of this solution is $O(n)$ where $n$ is the length of `senate`. `senate` is iterated over once when initializing the two queues, and the banning step can at most iterate $n/2$ times. The space complexity is also $O(n)$.  
   
 
