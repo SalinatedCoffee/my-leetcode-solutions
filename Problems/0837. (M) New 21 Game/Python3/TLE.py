@@ -1,6 +1,6 @@
 class Solution:
   def new21Game(self, n: int, k: int, maxPts: int) -> float:
-    # bottom-up dynamic programming
+    # bottom-up dynamic programming (tabulation)
 
     # dp[i] is probability of obtaining score i
     dp = [0] * (n + 1)
