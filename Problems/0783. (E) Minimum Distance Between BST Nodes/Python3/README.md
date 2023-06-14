@@ -1,7 +1,7 @@
 ## 783. (E) Minimum Distance Between BST Nodes
 
 ### `solution.py`
-This problem would have been a lot more difficult if the tree wasn't a search tree. Thankfully it is, so we can just traverse the tree inorder (LNR) to retrieve the nodes in ascending order. The solution simply generates the inorder list of nodes and iterates across it to determine the minimum difference.  
+This problem would have been a lot more difficult if the tree wasn't a search tree. Thankfully it is, so we can just traverse the tree inorder (LNR) to retrieve the nodes in ascending order. We want the **minimum** difference between two nodes, and the difference between two adjacent inorder values is obviously where this difference will be found. Thus the solution simply generates the inorder list of nodes and iterates across it to determine the minimum difference.  
   
 #### Conclusion
 This solution runs in $O(n)$ time and space, where $n$ is the number of nodes in the tree. The inorder traversal touches every node exactly once, and the inorder list `self.vals` contains $n$ number of elements.  
