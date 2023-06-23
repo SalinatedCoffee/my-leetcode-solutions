@@ -1,0 +1,11 @@
+## 1027. (M) Longest Arithmetic Subsequence
+
+### `solution.py`
+Because of how the LAS is defined, the minimum length of an LAS is 2, and these two elements determine the in/decrement value of the entire sequence(if it exists). The brute force approach involves selecting a pair of values in `nums` (indices `l` and `r`, where `l < r`), and then scanning the remainder of `nums` (right side of `r`) while counting the number of elements that would be in the subsequence. Since there are $n^2$ pairs, and scanning `nums` takes $O(n)$ time, this algorithm will take $O(n^3)$ time, which is very inefficient.  
+We can do better by selecting a pair and assuming that they are the **last** values in its subsequence. If we carefully choose the order in which we will perform this computation, we can incrementally compute values for all possible states in optimal time. Initializing a list `dp`, where `dp[i][d]` is the length of the LAS ending at `nums[i]` with step `d`, we can see that the value of `dp[i][d]` depends on the value `dp[i-1][d]`. Because the step can be a negative value we must use a dictionary to store them, where the key is the step and the value is the length of the LAS as described earlier. At some index `i`, if the key `d` (which is simply `nums[i] - nums[i-1]`) is in the dictionary `dp[i-1]`, that means a subsequence with the same step `d` already exists, and so the value of `dp[i][d]` becomes `dp[i-1][d] + 1`. If not, then `dp[i-1]` and `dp[i]` form the beginning of a subsequence, so the value of `dp[i][d]` becomes `2`. Generalizing this to include all non-adjacent pairs in `nums`, for all possible values of `r` (from `0` to `len(nums`), and for all possible values of `l` (from `0` to `r`) we can apply the algorithm described above until all pairs of `l` and `r` are performed.  
+Once all values have been computed, we simply need to return the largest length among all length values in `dp`.  
+
+#### Conclusion
+This solution has a time complexity of $O(n^2)$, where $n$ is the length of `nums`. Initialization of `dp` takes $O(n)$ time, and populating it takes $O(n^2)$ time since there are $n^2$ possible pairs of `l` and `r`. The space complexity is $O(n^2)$, since in `dp[i][d]` `i` is $n$ long, and `d` is just `l`, which is also $n$ long.  
+  
+
