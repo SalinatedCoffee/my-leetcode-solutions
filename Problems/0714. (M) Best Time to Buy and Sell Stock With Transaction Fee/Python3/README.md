@@ -1,9 +1,10 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 714. (M) Best Time to Buy and Sell Stock With Transaction Fee
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+There is a value we want to optimize (maximize profits) and since a optimized value for some state depends on that of another state, intuition tells us that we should try taking a dynamic programming approach to this problem. Say we store the maximum profits in the list `dp`, where the value of `dp[i]` is the maximum achievable profit on the `i`th day. On a given day there are 3 choices that we can make; we can purchase today's stock, sell the currently owned stock, or do nothing and move on to the next day. Here's where this approach starts to fall apart: storing profits in a single list will yield incorrect values since there are multiple states possible for a single day and thus cannot be stored in a single list of length `len(prices)`. To remedy this we can simply store values in 2 lists instead (implemented as a `len(prices) * 2` 2D list in this solution), where one list will store profits where a stock has not been purchased that day, and the other where a stock is being held. Now if we decided to buy today's stock, the value of `dp[i][0]` will be `dp[i-1][1] - prices[i]` because prior to making the purchase we did not have a stock and just paid today's stock price worth of money to buy it. Similarly, if we currently own a stock and decided to sell it today `dp[i]` would be `dp[i-1][0] + prices[i] - fee` since we are selling the stock at today's price and also have to pay the transaction fee(where a single transaction consists of buying and then selling the stock). Doing nothing would simply be `dp[i-1][j]`, where `j` coresponds to whatever state the current state is. Since we want to **maximize** our profit we need to choose the maximum value among these choises, which can be achieved through the use of `max()`.  
+Once `dp` has been fully populated, the value we want will be stored in `dp[-1][1]`, which represents the state of having no stock on the last day.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(n)$, where $n$ is the length of `prices`. Initializing `dp` takes $O(n)$ time as well as the tabulation step, since each 'pair' in `dp` takes constant time to compute. The space complexity is also $O(n)$.  
   
 
