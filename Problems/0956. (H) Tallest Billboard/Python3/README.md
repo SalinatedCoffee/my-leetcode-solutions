@@ -1,9 +1,11 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 956. (H) Tallest Billboard
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+A brute force approach involves trying every possible combination of rods - of which there are $3^n$ of (there are 3 states for each rod; ignore, use in left, and use in right), where $n$ is the length of `rods`. This is obviously not ideal and we should look to other means that does better than exponential time. Reading through the problem description vaguely feels as it may be a dynamic programming problem, but the actual solution is unfortunately not that intuitive. The key here is to realize that we should store previous values based on the difference between two rods(in this case, the shorter rod and the taller rod). So for rods `1, 2` and `5, 6` (which have the same difference of `1`) we should ignore the former and keep track of the latter. If we store the length of the taller rod for a given difference, we do not need to keep track of the length of the shorter rod separately since it can be derived from the two values that we do keep track. Since `difference = taller - shorter`, the value of `taller - difference` is simply the value of the shorter rod.  
+Now that we have established that `dp[d] = t`(the tallest height of the taller rod of the pair with difference `d` is `t`), we need to figure out a way to compute the value `dp[0]` across the entierety of `rods`. We can accomplish this by building up `dp` incrementally, initially using only the first rod, then the first two rods, and so on. Because the difference is not guaranteed to be continuous `dp` needs to be a dictionary rather than an array. On top of that, the state transitions does not happen inside `dp`, but rather between different instances of `dp`. Say for example, we have a new rod `r` and we want to determine the state transition for `dp[7]`. As mentioned earlier we have three choices: ignore the new rod `r`, add `r` to the shorter rod, or add it to the taller rod. If we do nothing, the value for the difference of `7` is simply left untouched. If we add it to the shorter rod, the difference is no longer `7` but rather `abs(s + r - t)`, and `t` becomes `max(s + r, t)` (because adding `r` to `s` may result in `s` becoming taller than `t`). If we update `dp[new_diff]` with `new_t`, `dp` how spans multiple states where some values use the first `i` rods and `dp[new_diff]` uses the first `i+1` rods. To avoid this, we simply create a copy of `dp` and update the values of the copy. When the computation has completed we discard the previous state `dp` and mark the current one as the most recent.  
+We need to perform this for all values in `rods`, and after the computation is finished the desired value will be stored in `dp[0]`.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(mn)$ where $m$ is the maximum sum of a pair of values in `rods` and $n$ is the length of `rods`. We iterate across `rods`, and for each iteration we update all possible states in `dp`, of which there are $O(m)$ of. The space complexity is $O(m)$.  
   
 
