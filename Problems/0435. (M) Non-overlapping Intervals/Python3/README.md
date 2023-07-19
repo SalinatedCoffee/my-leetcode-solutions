@@ -6,5 +6,5 @@ Taking this new approach, say we have `in_sorted`, which is `intervals` sorted i
 Once we have finished iterating over `in_sorted`, we can simply return the counter mentioned earlier.  
 
 #### Conclusion
-The time complexity for this solution is $O(n\log n)$ where $n$ is the length of `intervals`. Sorting `intervals` takes $O(n\log n)$ time, after which we iterate over `in_sorted` exactly once which takes $O(n)$ time. The space complexity is $O(n)$ since we do not sort `intervals` in-place.  
+The time complexity for this solution is $O(n\log n)$ where $n$ is the length of `intervals`. Sorting `intervals` takes $O(n\log n)$ time, after which we iterate over `in_sorted` exactly once which takes $O(n)$ time. The space complexity is $O(n)$ since we do not sort `intervals` in-place. Python's built-in sorting algorithm also uses $O(n)$ memory during runtime(Timsort).  
   
