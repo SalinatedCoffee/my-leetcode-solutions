@@ -18,6 +18,7 @@ class Solution:
 
   def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
     self.vectors = [(1,2), (1,-2), (2,1), (-2,1), (-1,2), (-1,-2), (2,-1), (-2,-1)]
+    # dp[r][c][s] is probability of knight on row r and col c, with s remaining moves
     self.dp = [[[-1] * k for _ in range(n)] for _ in range(n)]
 
     return self.recurse(row, column, 0, k, n)
