@@ -1,9 +1,11 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 673. (M) Number of Longest Increasing Subsequence
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+This problem is a twist on the classic longest increasing subsequence problem, where we now have to find the number of longest increasing subsequences instead of the length.	The solution to the original problem involved iterating over the given list of integers and using binary search to determine whether a value should overwrite a value or be appended to a separate list of values that loosely represent the increasing subsequences that exist in the prefix subarray up to the current element. Since we do not know whether we have already encountered an LIS at an element until the entire array is processed, simple tweaks to the original solution will most likely not be enough.  
+Instead we would need to compute the **length** of, and the **number** of LISes ending at an element, for every element. Once the iteration has finished we can determine the length of the LIS over the entire array `nums`, and use that information to compute the sum of all increasing subsequences with the same length. We will store this information in two lists of length `n = len(nums)`, `length` and `count`. For every element `i` we iterate over the prefix array `nums[:i]` (we'll call these elements `j`). If `i` is larger than `j`, we can extend all subsequences that end with `j` with `i`. And because we know the length and the number of LISes that end with `j` (`length[j]` and `count[j]`), we can also compute the values for `length[i]` and `count[i]`. If the new LIS is longer than previously computed LISes for `i`, we simply update the LIS length at index `i` with `length[j] + 1` and reset the counter at `i` to `0`. If the new LIS has the same length we add the number of LISes ending with `j` to the count for element `i` (`count[i] += count[j]`).  
+Once this step has finished, we scan through `length` to determine the length of the LIS (`longest`) across the entirety of `nums`, and scan through `length` once again while summing up the values of `count` that correspond to LISes that are `longest` long.  
 
 #### Conclusion
-\<Content\>  
+The time complexity of this solution is $O(n^2)$ where $n$ is the length of `nums`. There are $n$ prefix subarrays of `nums`, and we linearly iterate over all elements in each subarray - hence the overall time complexity of $O(n^2)$. The space complexity is $O(n)$, since only `length` and `count` scales with the size of input `nums`, and does so in a linear fashion.  
   
 
