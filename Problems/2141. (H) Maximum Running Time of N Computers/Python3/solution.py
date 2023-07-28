@@ -1,16 +1,14 @@
 class Solution:
   def maxRunTime(self, n: int, batteries: List[int]) -> int:
-    # binary search
+    # prefix sum on sorted array
 
-    ret = 0
-    l, h = 1, sum(batteries) // n
-    while l <= h:
-      m = (l + h) // 2
-      if sum([min(x, m) for x in batteries]) >= n * m:
-        ret = m
-        l = m + 1
-      else:
-        h = m - 1
+    batt_sorted = sorted(batteries)
+    live = batt_sorted[-n:]
+    extra = sum(batt_sorted[:-n])
+    for i in range(n-1):
+      if extra < (i+1) * (live[i+1] - live[i]):
+        return live[i] + extra // (i+1)
+      extra -= (i+1) * (live[i+1] - live[i])
     
-    return ret
+    return live[-1] + extra // n
 
