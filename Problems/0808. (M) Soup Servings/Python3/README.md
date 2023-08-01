@@ -1,9 +1,10 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 808. (M) Soup Servings
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+Since we can easily break down the original problem into smaller subproblems, we know that we can solve this problem with dynamic programming. For DP problems, the usual flow is to first try coming up with a recursive solution, then a top-down solution, and finally a bottom-up solution(which sometimes can be further optimized in terms of space complexity). For this problem, we want to determine the defined probability starting with `n` mls of both soups A and B. There are 4 operations that we can choose from at each state - we can either serve 25mls and 75mls, 50mls and 50mls, 75mls and 25mls, or 100mls and 0ml of A and B, respectively. At some state where we have `i`mls of soup A and `j`mls of soup B, we know that the probability of this state is the sum of the probabilities of the states after performing one of the four operations, multiplied by `0.25`. So if we define a function `f(i,j)`, where `f()` returns the probability for the state where there is `i`mls of soup A and `j`mls of soup B remaining, the probability would be `(f(i-25,j-75) + f(i-50,j-50) + f(i-75,j-25) + f(i-100,j)) * 0.25`. `f(i,j)` has 3 base cases; when `i` *and* `j` are negative, we return `0.5` since that means that soups A and B have both been depleted simultaneously. When only `i` is negative, we return `1` since we have depleted soup A first. Finally, when only `j` is negative we return `0`.  
+We now have a recursive solution, but upon examination the solution we have now can be trivially modified into a top-down dynamic programming solution. We either manually store the return values of `recurse()` using a dictionary, or we can utilize the built-in `@cache` decorator, as we have done here.  
 
 #### Conclusion
-\<Content\>  
+The time and space complexities for this solution is $O(1)$. Since answers that are within $10^{-5}$ of the actual probability are accepted, it is guaranteed that we only perform at most a fixed number of recursive calls no matter the size of input `n`.  
   
 

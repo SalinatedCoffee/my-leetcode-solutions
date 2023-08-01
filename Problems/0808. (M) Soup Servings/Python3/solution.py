@@ -3,6 +3,8 @@ class Solution:
 
   def soupServings(self, n: int) -> float:
     self.vectors = [(-100,0), (-75,-25), (-50,-50), (-25,-75)]
+    # optimization trick, answers within 10**-5 are accepted
+    # so just return 1 when n is acceptably large
     if n >= 4800:
       return 1
 
