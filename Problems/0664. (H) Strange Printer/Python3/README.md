@@ -1,9 +1,10 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 664. (H) Strange Printer
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+Intuition tells us that this problem could be solved by taking a dynamic programming approach. Let's first set up what a state should look like. Somewhat arbitrarily, we will say that the value of the state `(l, r)` is the minimum number of prints the printer has to perform to convert a string `t`, where `t == s[r]*(r-l+1)`(for example if `s = "abcdef"` and the state is `(1, 4)`, `t = "eeee"`), to the substring `s[l:r+1]`. If `s[l:r+1]` has at least two distinct characters, and `j` is the index of the first character that is not `s[r]`, we know that we will inevitably have to print over `j`. Because of how we defined `j`, we know that `s[l:j]` is already converted and will incur no additional cost. So we want to start printing at `j`, but we do not know when we should stop printing. Let's assume we stop printing at index `i`. Now `t[j:i+1]` only consists of `s[i]`, and `t[i:r]` only consists of `s[r]`. The converting cost of these two strings can now be recursively defined, where the former is represented by the state `(j,i)` and the latter by `(i+1,r)`. We have performed 1 printing operation to obtain the first string, hence the minimum print count of the state `(l,r)` now becomes `1 + (j,i) + (i+1,r)`. Of course, there could be many possible values for `j` and `i` for the state `(l,r)`, so we try all of them and select the one with the smallest cost.  
+The desired value will be the return value of the state `(0, len(s)-1) + 1`. `len(s)-1` because the parameters are 0-indexed, and `+ 1` because the state definition does not count the initial cost of printing `t`.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(n^3)$, where $n$ is the length of string `s`. Each state has two parameters, both of which are in the range $[0, n)$. Thus there are $n^2$ states total, and in computing the value of each state we find all possible values of `j` and `i` which is an operation that scales linearly with the size of `s`. The space complexity is $O(n^2)$.  
   
 
