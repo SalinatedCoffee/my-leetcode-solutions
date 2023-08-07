@@ -1,9 +1,14 @@
 ## 920. (H) Number of Music Playlists
 
 ### `solution.py`
-  
+
+We can take a dynamic approach to this problem by realizing that we can simply calculate the number of playlists when a song is added to it, if we know how many playlists there are that has the same length as the current one. Since we also want to make sure that all `n` songs are played at least once, we should also keep track of the number of *unique songs* contained in a playlist.  
+
+Let $f(i, j)$ be a function that returns the number of playlists that are $i$ long, and contains $j$ unique songs. Obviously, we want the value of $f(\texttt{goal}, \texttt{n})$ as we want the number of playlists that have a length of `goal` and contains `n` unique songs (in other words, all `n` songs are played at least once). For all playlists that satisfy $i$ and $j$, one of either two things could have happened. A new song that was not in these playlists was added, or an old song that had already been played previously was added.  
+For the former, the previous state would have been $f(i-1, j-1)$ since the length and the number of unique songs would both have had to be smaller than the current state by $1$ each. When adding the new song we have `n - j + 1` songs to choose from, as there are `j - 1` unique songs in the playlist which means that there are `n - (j - 1)` songs that have not yet been included in the playlist. Thus the number of playlists would be $f(i-1, j-1) \cdot (\texttt{n} - j + 1)$.  
+Moving on to the latter, the previous state would have been $f(i-1, j)$ by similar logic to the former. And because we have `i - 1` songs in the playlist you would be tempted to say that we can choose from `i - 1` songs to add to the current playlist. However, a song that has previously been played cannot be played again until at least `k` songs have been played. Taking this into account we now see that we instead have to choose from `j - k` songs, which only stands when `j` is larger than `k` (this explanation is admittedly very hand-wavy, but think about this a little bit in an inductive context to convince yourself that this does indeed work). Thus the number of playlists would be $f(i-1, j) \cdot (j - \texttt{k}) \quad \text{if} \quad j < \texttt{k}$.  
+The base cases are when a playlist contains no songs and no unique songs, and when a playlist either contains no songs or no unique songs. For the first case the return value is trivially `1`, since there is only 1 way to construct an empty playlist. For the second and third cases the return value is trivially `0`, as a playlist that contains songs that also does not contain any unique songs (and vice versa) cannot possibly exist.  
 
 #### Conclusion
-\<Content\>  
-  
 
+This solution has a time complexity of $O(mn)$ where $m$ is `goal` and $n$ is `n`. The recursive function we have defined above has two parameters, and each of these parameters are in the range $[0, m]$ and $[0, n]$. Thus there are $(m+1)\cdot(n+1)$ states total, and computing the value for each of these states take $O(1)$ time, yielding a overall time complexity of $O(mn)$. The space complexity is also $O(mn)$, as `dp` is a $(m+1)\times (n+1)$ 2D list and scales faster than the recursion stack, which uses $O(m+n)$ space.  
