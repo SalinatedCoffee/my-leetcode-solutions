@@ -1,0 +1,7 @@
+## 542. (M) 01 Matrix
+
+### `solution.py`
+Since we want the minimum [Manhattan distance](https://en.wikipedia.org/wiki/Taxicab_geometry) between a `1` cell and a `0` cell, we can easily solve this problem through BFS. Rather unintuitively however, we want to start BFS from `0` cells as it is easier to record the distance for the `1` cells this way. If we start from `1` cells instead, we would have to attach additional information about the source node of a particular BFS branch for each state. Going in the opposite direction we only need to keep track of the distance traversed, which we can immediately reference whenever we encounter a `1` cell. We also realize that there is no point in traversing a neighbor that is also a `0` cell, as we want the shortest possible distance. Thus we only enqueue `1` cells while ignoring others. When an unvisited `1` cell is encountered, we know whatever distance that was traversed to reach that cell is guaranteed to be the shortest distance by virtue of using BFS. We update the distance in the appropriate location in `ret`, and move on to the cell's neighbors. Once the traversal has completed, we can simply return `ret` directly.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$, where $m$ and $n$ are the dimensions of `mat`. BFS traverses all cells in `mat`, and only processes each cell once. The space complexity is also $O(mn)$.  
