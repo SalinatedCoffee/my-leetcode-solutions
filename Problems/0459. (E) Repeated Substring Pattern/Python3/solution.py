@@ -5,13 +5,8 @@ class Solution:
     n = len(s)
     for i in range(1, n):
       if not n % i:
-        b, c = False, 0
-        while c < n:
-          if s[:i] != s[c:c+i]:
-            b = True
-            break
-          c += i
-        if not b:
+        q = n // i
+        if s[:i] * q == s:
           return True
     
     return False
