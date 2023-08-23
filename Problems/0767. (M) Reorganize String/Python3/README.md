@@ -1,0 +1,9 @@
+## 767. (M) Reorganize String
+
+### `solution.py`
+We are allowed to arbitrarily rearrange the characters in `s` as long as same characters are not repeated. The most compact way to rearrange some character `c` then, is to alternate it with a different character in strides of 1. So for example, if we have some number of the character `a` we may rearrange it in 2 patterns; `a*a*a*a...` or `*a*a*a*...` (where `*` can be any character in `s` other than `a`). There are 2 cases to consider for these patterns, which is whether `s` has an odd or even length. If `s` is odd, we can pack at most `ceil(len(s) / 2)` `a`s with the former pattern and `len(s) // 2` with the latter. If it is even, we can pack `len(s) // 2` `a`s for both patterns. Clearly the former pattern is the most optimal choice across all scenarios, so we should first try rearranging a character in that pattern. Another thing to note is that if there are more `a`s than the maximum number of characters a pattern can pack, it is impossible to rearrange `s` as described by the problem. Thus the algorithm involves counting the number of each character in `s`, lay out the characters in the pattern described above (greedily taking the most frequent characters first) and returning the rearranged string. There are many different methods with which the rearranging step can be implemented, but here we have chosen to use a max heap to retrieve the characters by decreasing order of their frequency count.  
+
+#### Conclusion
+The time complexity is $O(n + k\log k) = O(n)$ where $n$ is the length of `s` and $k$ is the size of the alphabet of `s` (which for this problem is 26). Generating the character frequency, rearranging the characters, and converting the list into a string all take $O(n)$ time. The heap can at most experience $k$ insertions and $k$ pop operations, hence the time complexity of $O(k\log k)$. The space complexity is $O(n+k)$.  
+  
+
