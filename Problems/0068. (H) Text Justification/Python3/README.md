@@ -1,0 +1,11 @@
+## 68. (H) Text Justification
+
+### `solution.py`
+This is a problem where the algorithmic portion is easy to understand, but implementing it takes more effort. Conceptually we greedily 'consume' every word, trying to pack in as many words in a single line. When justifying a line we equally pad each space, while preferring those from the left if spaces cannot be equally distributed. The last line need not be justified, and so we only pad the remaining space after the last word. For each line we need to keep track of the number of spaces and the character count of all words in that line. Then, we can compute the number of space that needs to be distributed and consequently what the length of each padding should be. If the current number of spaces is `cur_pad` and character count is `cur_char`, the number of available space `avbl_space` is `maxWidth - cur_char`, the 'base' length of the padding is `avbl_space // cur_pad`, and we would have to extend the first `avbl_space % cur_pad` padding by 1.  
+We must also account for any edge cases, such as when a line can only fit 1 word, and when the word being added is the first word of the line. Once the outermost `for` loop exits we check whether the last line has been justified, and perform the appropriate operation.  
+
+#### Conclusion
+This solution has a time complexity of $O(nk)$, where $n$ is the length of `words` and $k$ is `maxWidth`. We iterate over `words` once, and for each word we perform a fixed number of constant-time operations. During the iteration we occasionally generate a string representation of a justified line, which takes $O(k)$ time as a justified line has a length of `k`. There can be at most $n$ such lines (all lines contain a single word), hence the overall time complexity of $O(nk)$. The space complexity is $O(k)$, since `cur` can at most contain `k` characters.  
+While this problem was more implementation-detail-oriented, the topic of text justification itself is another whole [can of worms](https://en.wikipedia.org/wiki/Line_wrap_and_word_wrap#Algorithm). Implementations of these algorithms typically involve dynamic programming techniques, so further research may be warranted if the topic piques your interest.  
+  
+
