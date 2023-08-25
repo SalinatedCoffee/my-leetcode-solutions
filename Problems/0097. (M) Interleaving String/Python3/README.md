@@ -1,6 +1,23 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 97. (M) Interleaving String
 
-### `\<solution filename\>`
+### `TLE.py`
+For `s3` to be '*interleavable*' by `s1` and `s2`, there are a few things to consider. We want to 'consume' all characters in `s1` and `s2` by the time we have verified `s3` is interleavable, and we must do so in order of which the characters appear in `s1` and `s2`.  
+If we assume `s3` is in fact interleavable, and we split `s3` into half, it **must** be the case that these two halves are both interleavable. That is, the interleavability of `s3` relies on the interleavability of two of its substrings. This tells us that we should be taking a dynamic programming approach to this problem, which we will do so by first implementing a top-down solution.  
+Say we are examining `s3[0]` and we have the entierety of `s1` and `s2` available to us. There are 2 choices that can be made in this state; if `s1[0] == s3[0]`, we can consume `s1[0]` and recursively examine the interleavability of `s3[1:]` using `s1[1:]` and `s2[:]`. Or, if `s2[0] == s3[0]`, we can recurse on `s3[1:]` using `s1[:]` and `s2[1:]`. Note that it may be the case that `s1[0] == s2[0] == s3[0]`, in which case we should try exploring both choices. Putting it more formally, function $f(i,j,k)$ returns whether `s3[k:]` is interleavable using `s1[i:]` and `s2[j:]`. That is,  
+$$
+f(i,j,k) =
+\begin{cases}
+f(i+1,j,k+1) & \text{if }\texttt{s1[}i\texttt{] == s3[}k\texttt{]} \\
+f(i,j+1,k+1) & \text{if }\texttt{s2[}j\texttt{] == s3[}k\texttt{]} \\f(i+1,j,k+1) \lor f(i,j+1,k+1) & \text{if }\texttt{s1[}i\texttt{] == s3[}k\texttt{]}\land\texttt{s2[}j\texttt{] == s3[}k\texttt{]}
+\end{cases}
+$$
+The states in our recurrance relation has 3 integers as parameters, and is trivial to memoize. By definition we want the value of $f(0,0,0)$, which we can return immediately.  
+
+#### Conclusion
+\<Content\>  
+  
+
+### `solution.py`
 \<Content\>  
 
 #### Conclusion
