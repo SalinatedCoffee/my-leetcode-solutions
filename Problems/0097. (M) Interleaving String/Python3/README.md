@@ -8,19 +8,20 @@ Say we are examining `s3[0]` and we have the entierety of `s1` and `s2` availabl
 f(i,j,k) =
 \begin{cases}
 f(i+1,j,k+1) & \text{if }\texttt{s1[}i\texttt{] == s3[}k\texttt{]} \\
-f(i,j+1,k+1) & \text{if }\texttt{s2[}j\texttt{] == s3[}k\texttt{]} \\f(i+1,j,k+1) \lor f(i,j+1,k+1) & \text{if }\texttt{s1[}i\texttt{] == s3[}k\texttt{]}\land\texttt{s2[}j\texttt{] == s3[}k\texttt{]}
+f(i,j+1,k+1) & \text{if }\texttt{s2[}j\texttt{] == s3[}k\texttt{]} \\
+f(i+1,j,k+1) \lor f(i,j+1,k+1) & \text{if }\texttt{s1[}i\texttt{] == s3[}k\texttt{]}\land\texttt{s2[}j\texttt{] == s3[}k\texttt{]}
 \end{cases}
 ```
 The states in our recurrance relation has 3 integers as parameters, and is trivial to memoize. By definition we want the value of $f(0,0,0)$, which we can return immediately.  
 
 #### Conclusion
-\<Content\>  
+The algorithm described above has a time complexity of $O(mnk)$, where $m$, $n$, and $k$ are the lengths of `s1`, `s2`, and `s3`, respectively. `i` is in the range `[0, len(s1))` and `j` is in the range`[0, len(s2))`, and as such there are $O(mn)$ possible states which need to be computed. `dp` is a $m\times n\times k$ 3D list, and takes $O(mnk)$ time to be initialized. The space complexity is also $O(mnk)$.  
   
 
 ### `solution.py`
-\<Content\>  
+The first solution, while correct, takes too long to run and fails with TLE upon submission. Going back to the TC analysis we notice that the actual computation step only takes $O(mn)$ time, and intializing `dp` outscales this operation by a factor of $k$. At this point we realize that we only need *2* parameters to represent a single state, since `k` depends on `i` and `j` and thus can be trivially computed through the expression `i+j`. After reducing `dp` down to a 2D list and making adjustments to the recurrence relations accordingly, we arrive at a solution that passes without TLE.  
 
 #### Conclusion
-\<Content\>  
+The time and space complexity of this solution is $O(mn)$.  
   
 
