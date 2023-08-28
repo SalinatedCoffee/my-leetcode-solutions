@@ -1,0 +1,11 @@
+## 403. (H) Frog Jump
+
+### `solution.py`
+If the frog can make it to `stones[i]` from `stones[0]`, and `stones[-1]` is reachable from `stones[i]`, it must be the case that the frog can reach the last stone starting at `stones[0]`. Hence, this problem can be solved with dynamic programming as a problem can be subdivided into smaller subproblems. At the `0`th stone, the frog can potentially jump a distance of `-1` or `0` or `1`. As it can only jump forwards, we can only jump forwards `1` to reach the unit position of `1`. If a stone is present at that position, we again have 3 jump distances to consider; either `1-1 = 0`, `1`, or `1+1 = 2`. Examining the valid jump distance `2`, we would first need to determine whether a stone exists at unit position `1+2 = 3`. If it does, the next three possible distances would be `2-1 = 1`, `2`, and `2+1 = 3`, and the steps are repeated until the last stone is reached.  
+Thus, we would need to keep track of 2 values for each state; the index of the stone in `stones`, and the distance that was jumped in the previous step. So for `recurse(i, j)` where `i` is the `stones` index and `j` is the previous jump distance, we first generate the 3 jump distances `[j-1, j, j+1]`. Then only considering positive jump distances (`n_j`) we check whether a stone exists at unit position `stones[i] + n_j`. If a stone `stones[k]` exists at that unit position, we call `recurse(k, n_j)`. Since we only need to check if *any* of these jumps can allow the frog to jump to the end, we logical OR the 3 return values and return that as our final value.  
+As you may have noticed, we also need a way to optimally convert the unit position of a stone back into its index in `stones`, which we can do with a dictionary.  
+
+#### Conclusion
+This solution has a time complexity of $O(n^2)$, where $n$ is the length of `stones`. A state has 2 variables, where both of them are in the range `[0, len(stones))`. For the jump distance, it can only grow by `1` if the frog takes the maximum jump distance at every stone. And since there can only be $n$ jumps that can be made, it can be reasoned that the jump distance cannot be larger than $n$. Only a handful of constant-time operations are performed in order to compute each state, hence the overall time complexity of $O(n^2)$. The space complexity is also $O(n^2)$.  
+  
+
