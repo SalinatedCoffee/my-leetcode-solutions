@@ -1,0 +1,12 @@
+## 1326. (H) Minimum Number of Taps to Open to Water a Garden
+
+### `solution.py`
+As with most optimization problems, this too could be solved by using a dynamic programming based approach. However, we can come up with a faster solution by realizing that there is an optimal way of selecting which taps to use, which will allow us to implement a greedy solution.  
+Essentially, we want to select taps that will let us water a larger portion of the garden. Because the watering range is defined in terms of the 'radius', we want to determine this range based on the starting position instead of the position of the tap itself; that is, instead of examining the watering distance for an `i`th tap, we want to find the maximum watering range that *starts* at some position. For example if `ranges = [1, 0, 1, 2, 3]`, the maximum range that can be watered starting at index `1` would be `6`. There are 3 taps which have a watering range that starts at `1`, and among those 3 opening the `4`th tap would yield the largest range that ends at `6`, which is the optimal choice.  
+Thus we first precompute the maximum watering range of all positions. Then, while iterating from `0` to `n` we keep track of two variables; the maximum range of the last opened tap, and the maximum range of the tap that should be opened next. If we last opened a tap that has a max range of `r`, and we are currently at index `i`, the next tap we would want to open would be one with the furthest range that has a starting point between `i` and `r`. So we keep updating the maximum range of the next tap, by examining the max range of the current starting point, and whenever we move out of the range of the previous opened tap we increment an opened tap counter and update the current range with the next range. If we instead move out of the next tap's range, we know that the current position cannot possibly be watered and immediately return `-1`.  
+Once we have finished iterating, we can directly return the number of taps we have opened.  
+
+#### Conclusion
+This solution has a time complexity of $O(n)$ where $n$ is `n`. Precomputing the max ranges and determining the number of open taps both involve linearly iterating over the range `[0, n]`, hence the overall time complexity of $O(n)$. The space complexity is also $O(n)$, since we store the max watering range for all starting positions, which there are $n+1$ of.  
+  
+
