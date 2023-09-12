@@ -1,0 +1,10 @@
+## 1647. (M) Minimum Deletions to Make Character Frequencies Unique
+
+### `solution.py`
+At first glance this may seem like another dynamic programming problem. We quickly realize however, that the problem cannot be broken down into subproblems as they have no clear relation to each other. Instead we may simply generate a frequency list of the letters in the entire string, after which we may algorithmically remove letters until the frequencies are in a valid state.  
+Assume we have two letters with the same frequency. Obviously we must remove at least 1 character of either letter. We want to minimize the number of deletions, and so it is optimal to leave the other letter untouched. But what if a different letter has the same frequency as the one we just deleted from? This is simply the previous problem repeated, and we can use the same logic to delete a character from `s`. Now that we have worked out when we should be performing deletions, we need to determine the order by which we process the letters. After deleting a character, we must make sure that the frequency of any other letter is not equal to the resulting frequency. Since we have already established that it does not matter which letter we choose to delete, we can simply keep deleting characters of the letter until its frequency becomes unique. As such we may process the letters in any order.  
+
+#### Conclusion
+This solution has a time complexity of $O(n+k^3)$ where $n$ is the length of `s` and $k$ is the size of the alphabet of `s` (which for this problem is 26). We iterate over `s` in order to count the frequency of each letter, after which we attempt to delete characters for each letter. Checking `freq` takes $O(k)$ time, and in the worst case where all letters have the same frequency and occur more than $k$ times $k(k-1)/2$ deletions will be performed. Thus, the deletion step has a time complexity of $O(k^3)$ putting the overall time complexity at $O(n+k^3)$. The space complexity is $O(k)$ as the letter frequencies are stored in a 1D list `freq` of length $k$.  
+  
+
