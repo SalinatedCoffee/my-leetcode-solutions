@@ -1,0 +1,10 @@
+## 1584. (M) Min Cost to Connect All Points
+
+### `solution.py`
+
+For a certain point, we want to know which other point is closest to it. To accomplish this we would have to examine the distance between that point and all other points. If we do this for all possible points in `points`, we would end up with a complete graph of all points and the weights for all edges within it. The problem tells us that all points are connected when there is exactly one **simple path** between any two points. A tree best fits this description, and since we want the tree with the minimum cost, this is simply the MST of the complete graph of `points`.  
+There are of course several algorithms that can determine the MST given a graph, but for this problem we have chosen to implement the union-find flavor of Kruskal's algorithm. We first implement a basic union-find that also keeps track of each set's size, as we want to know when the MST has been fully determined. Then we generate a list of all possible edges and their weights. Because Kruskal's algorithm examines edges in ascending order of their weights, we sort the list of edges accordingly. Now, we simply instantiate a union-find with capacity `len(points)` and iterate through `edges`. If an edge results in two sets being merged we 'take' that edge by adding its weight to the total cost. Otherwise, we simply ignore it and move on to the next edge. When the largest set contains the same number of elements as `points`, we know the MST has been fully determined and can return early with the current total cost.  
+
+#### Conclusion
+
+This solution has a time complexity of $O(n^2\log n^2)$, where $n$ is the length of `points`. A complete graph with $v$ vertices has $v(v-1)/2$ edges, and thus `edges` will contain $n(n-1)/2$ elements. Consequently, sorting `edges` takes $O(n^2\log n^2)$ time, and union-find Kruskal's algorithm takes $O(n^2\cdot \alpha (n^2))$ time. The space complexity is $O(n^2)$ since both `edges` and `uf` use $O(n^2)$ memory.  
