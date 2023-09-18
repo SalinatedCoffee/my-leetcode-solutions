@@ -14,5 +14,5 @@ When all nodes have been visited, we may immediately return the distance travers
 
 #### Conclusion
 This solution has a time and space complexity of $O(n2^n)$. We begin the BFS traversal with all nodes as the source, and for each source there can be $O(2^n)$ possible subsets of the given graph. `visited` stores states that have 2 parameters; one that is in the range $[1, 2^n]$ (set of visited nodes) and another in the range $[1, n]$ (the current node).  
-Note the similarity between this solution and the [Floyd-Warshal algorithm](https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm).  
+Note the similarity between this solution and the [Floyd-Warshall algorithm](https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm).  
 
