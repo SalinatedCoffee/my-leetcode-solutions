@@ -1,9 +1,27 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 4. (H) Median of Two Sorted Arrays
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+The most simple solution is to merge the two sorted arrays, which makes finding the median trivial. While the problem specifically asks for a logarithmic solution this approach is accepted nevertheless, which is why I have decided to add it here.  
+Of course in an actual interview setting you would be expected to at least know about the logarithmic algorithm, even if you fail to implement the solution in time.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time and space complexity of $O(m+n)$, where $m$ and $n$ is the length of the arrays `nums1` and `nums2`.  
+  
+
+### `solution_2.py`
+From the logarithmic time complexity requirement along with the fact that the two arrays are already sorted, we can deduce that a binary search approach can be viable for this problem. The problem is of course that we have 2 arrays that are sorted, instead of 1. We can however still determine which section to discard for the next iteration by comparing the midpoints of both arrays. Suppose we want the `k`th element across all values in `nums1` and `nums2`. Splitting `nums1` and `nums2` in half and comparing their midpoints `m1` and `m2`, there are a few observations that can be made. If `m1 <= m2`, we know that any value in the left half of `nums1` must be smaller than any value in the right half of `nums2`. Also, by definition, the left half of `nums1` is obviously smaller than the right half of `nums2`. Thus, when the two arrays are merged, the interval containing items in the left half of `nums1` will never overlap the interval containing the right halves of both arrays. Because we have just established that the left half of `nums1` never overlaps the right halves of both arrays, we can say that `k` will never be in the left half of `nums1` if it is larger than `(len(nums1)+len(nums2))//2` (minimum length of merged right halves is half the length of the merged array, and that interval never overlaps with left half of `nums1`). Now we can confidently discard the left half of `nums1` (or the right half of `nums2`, depending on the value of `k`) and perform the same steps until either one of the array has been `exhausted`.  
+Note that `k` must be updated accordingly depending on which half has been discarded. Since we want the `k`th number in the merged array of `nums1` and `nums2`, discarding the left half of `nums1` (`l1`) will result in discarding `len(l1)` smallest numbers across both arrays. Thus, `k` should be updated to `k - len(l1)` in the next iteration.  
+
+#### Conclusion
+The time complexity of this solution is $O(\log m + \log n)$. Each iteration reduces the length of `nums1` or `nums2` by half, and does not stop until either one becomes empty. The worst case is when we have to remove all elements from both arrays, hence the overall time complexity of $O(\log m + \log n) = O(\log mn)$. The space complexity is also $O(\log m + \log n)$, as the recursion stack will use that much memory. However, the recursive component can be converted to an iterative one, in which case the space complexity becomes $O(1)$.  
+  
+
+
+### `solution_3.py`
+The previous solution can be optimized even further. Instead of discarding halves of both arrays, we can halve only the smaller of the two arrays resulting in a $O(\log(\text{min}(m,n)))$ time algorithm. The core principal is similar to that of the second solution in that we split an array in half and decide which half to discard based on some values decided by the position of the split.  
+We only want to discard halves of one array, which means the midpoint of the second array will need to change every iteration according to the remainder of the first array. Let `m` and `n` be the *original* length of the shorter and longer array, and `i` be the length of the current working interval of the shorter array. We first split the shorter array in half, so that the smaller half contains `i // 2` elements. Then, we split the longer array in such a way that its smaller section added with the smaller half of the shorter array contains half of all elements - that is, the smaller section of the longer array will contain `(m+n+1) // 2 - i // 2` elements. Now the smaller sections contain half of all elements, and the larger ones the other half. At this point, we can determine which half of the shorter array (`nums1`) we can discard by looking at the values 'bordering' the two pivot points. Let `l1_max` and `l2_max` be the values left to the splits in `nums1` and `nums2` respectively (or, the largest number in the smaller half of `nums1` and `nums2`) and `r1_min` and `r2_min` be those to the right. Obviously, `l1_max < r1_min` and `l2_max < r2_min` always holds true. However if `l1_max > r2_min`, it means that `l1_max` should be in the larger half of `nums1`, and we should look for a *smaller* number that is more suitable. The opposite is also true, where `l2_max < r1_min` means that `r1_min` should be in the smaller half and a larger value would be more appropriate for `r1_min`. Once we have settled on a split where all 4 values have the correct relationships, we need to determine whether we need one or two values based on the sum of the length of `nums1` and `nums2`. If the length is odd we only need one number, which is the last number of the smaller half. This value is simply the larger value between `l1_max` and `l2_max`. Otherwise, we also need the first number of the larger half, which is simply the smaller value between `r1_min` and `r2_min`.  
+
+#### Conclusion
+As mentioned above, the time complexity of this solution is $O(\log(\text{min}(m,n)))$ since we only halve the smaller of the two given arrays. The space complexity is $O(1)$.  
   
 
