@@ -18,6 +18,7 @@ class Solution:
       if char.isalpha():
         if k == 0 or k == tape_len:
           return c
+        tape_len -= 1
       else:
         tape_len //= int(c)
         k %= tape_len
