@@ -13,9 +13,9 @@ class Solution:
       idx += 1
         
     # step through substring in reverse
-    for j in range(i-1, -1, -1):
+    for j in range(idx-1, -1, -1):
       c = s[j]
-      if char.isalpha():
+      if c.isalpha():
         if k == 0 or k == tape_len:
           return c
         tape_len -= 1
