@@ -45,8 +45,12 @@ fi
 # get relative path to this script
 top_path="$(dirname -- "${BASH_SOURCE[0]}")"
 
-# construct path and set up problem directory
+# construct path and set up problem directory if it doesn't exist
 path="$top_path/Problems/$padded. ($2) $3/$lang"
+if [ -d "$path" ]; then
+  echo "Problem #$1 already exists at $path."
+  exit 0
+fi
 mkdir -p "$path"
 
 # change solution file extension based on supplied language
