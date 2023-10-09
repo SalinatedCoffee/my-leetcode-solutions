@@ -2,10 +2,8 @@ class Solution:
   def integerBreak(self, n: int) -> int:
     # math
     
-    if n < 3:
-      return 1
-    if n == 3:
-      return 2
+    if n <= 3:
+      return n - 1
 
     a = n // 3
     b = n % 3
