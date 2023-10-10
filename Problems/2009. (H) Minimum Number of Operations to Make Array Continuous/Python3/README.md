@@ -1,0 +1,8 @@
+## 2009. (H) Minimum Number of Operations to Make Array Continuous
+
+### `solution.py`
+For an array to be continuous, the difference between its minimum and maximum elements must be exacly equal to its length subtracted by 1. If we sort `nums` in ascending order, we can simply find the longest subarray that satisfies this requirement, which in turn will minimize the number of operations on the pre/suffix subarrays. The other requirement is that all values in `nums` need to be unique. Because of the first requirement, it is guaranteed that all elements outside of the previously mentioned subarray can each be assigned a new unique value that does not change the min/maximum values (because the difference is defined in relation to the array length). Hence, we may exclude duplicate values from the subarray step without affecting its correctness.  
+Since the subarray step involves finding the longest contiguous subarray using the first and last value of a potential subarray, we can simply take a sliding window approach in determining an answer. We incrementally extend the window and contract it whenever the min/max difference exceeds that of `len(nums) - 1`. The longest window will contain elements that *do not* have to be changed, and thus we return the length of `nums` subtracted by the length of the longest subarray.  
+
+#### Conclusion
+This solution has a time complexity of $O(n\log n)$, where $n$ is the length of `nums`. Initializing a `set` with `nums` takes $O(n)$ time, and sorting the resulting `set` takes $O(n\log n)$ time. The sliding window step takes $O(n)$ time, and so the overall time complexity comes out to be $O(n\log n)$. The space complexity is $O(n)$, since the sorting step and `unums` use $O(n)$ memory.  
