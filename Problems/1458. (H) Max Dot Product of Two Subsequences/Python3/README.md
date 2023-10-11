@@ -1,9 +1,13 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
-
-### `\<solution filename\>`
-\<Content\>  
+## 1458. (H) Max Dot Product of Two Subsequences
+ 
+### `solution.py`
+We know that we can take a dynamic programming approach to this problem since we can incrementally build up to the desired answer by first working on smaller problems. For this problem, say we want to compute the maximum dot product between the subsequences of `nums1[i:]` and `nums2[j:]`. There are 3 choices that can be made here; we can either take the pair `nums1[i]`, `nums2[j]` and add that to the max. dot product of `nums1[i+1:]` and `nums[j+1:]`, or ignore either value in `nums1` and `nums2` and consider the value of the resulting subarrays. Because we want to maximize the dot product, we naturally want to take the largest value among these three choices.  
+More formally, we define the function `recurse(i, j)` to return the maximum dot product between subsequences of `nums1[i:]` and `nums2[j:]`. When `recurse(i, j)` is called, we compute the values of `nums1[i] * nums2[j] + recurse(i+1, j+1)` (taking the pair `i` and `j`), `recurse(i+1, j)`, and `recurse(i, j+1)` (ignoring a value from each array). The largest of these values is then returned. The base case is when `i == len(nums1)` or `j == len(nums2)`, for obvious reasons.  
+As the problem requires us to choose at least 1 pair of values, and it may be the case that all possible pairs result in negative values, we cannot simply return `0` for the base cases. That is, we need to differentiate between a real value and when a solution cannot possible exist in the return value of `recurse`. Here we will simply return `None` whenever the base case is encountered, indicating to the caller that a solution cannot exist. Now we can simply make the necessary recursive calls and only compare the return values that are not `None`.  
+By definition, the desired value is the return value of `recurse(0, 0)`, which we can directly return in `maxDotProduct`.  
 
 #### Conclusion
-\<Content\>  
+The time complexity of this solution is $O(mn)$, where $m$ and $n$ are the lengths of `nums1` and `nums2`, respectively. Each DP state is represented by 2 parameters where one is in the interval $[0, m)$ and the other in $[0, n)$. Hence there are $mn$ states to process, with each state taking constant time to compute. Thus, the overall time complexity of this problem is $O(mn)$. The space complexity is $O(mn)$, as the recursion stack can be at most $m + n$ deep, and `dp` is an $m\times n$ 2D list.  
+Instead of using `None`, we could also take a more simple solution by realizing that the maximum dot product can only be negative when *every* value in `nums1` or `nums2` have the same sign, and the sign for each array is different. In this case, the maximum dot product is simply the product between the largest negative value and the smallest positive value, which we can directly return without having to enter the dynamic programming step.  
   
 
