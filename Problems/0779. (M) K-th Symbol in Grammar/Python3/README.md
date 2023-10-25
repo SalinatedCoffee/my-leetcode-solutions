@@ -1,0 +1,9 @@
+## 779. (M) K-th Symbol in Grammar
+
+### `solution.py`
+A simple solution would be to simply build the bitstring and return the `k`th bit. However this would obviously be very inefficient as the string length is essentially doubled for each row. Instead, we can think of generating the string as descending down a binary tree. With this approach we can discard the irrelevant half akin to binary search. Starting at the root (row 1) we look ahead and see how many leaf nodes the complete binary tree would have. If `k` is on the left, we descend down the left subtree and discard the right - and vice versa. We define a recursive function `recurse(o, l, r)`, that returns the `l`th symbol of the subtree rooted at a node with symbol `r` that has `o` rows. So for example, if we wanted the 7th symbol of the subtree rooted at symbol `1` with 4 rows, we would first check which half the `l`th symbol would reside in. The subtree would have $2^{4-1} = 8$ leaf nodes. Since $7 > (8 / 2)$ we know that the `l`th node would be in the right subtree, so we descend down the right. Because the symbol of the root is `1`, its left child would have a symbol of `0` and its right a symbol of `1`. Descending down the right, we would have $4 - 1 = 3$ rows remaining, and the root would have a symbol of `1`. Because we have discarded $8 / 2$ leaf nodes on the left, we will now need to look for the $7 - (8 / 2) = 3$rd symbol. We repeat this process until we hit the base case of `o == 1`. Since we only have 1 row remaining, we only have 1 leaf node, which we can immediately return.  
+
+#### Conclusion
+This solution has a time and space complexity of $O(n)$, where $n$ is `n`. The recursion ends when reaches the depth of $n-1$, and during each recursive call only a handful of constant-time operations are performed. Hence the overall time complexity will be $O(n)$, as well as the space complexity due to the recursive stack.  
+  
+
