@@ -1,9 +1,10 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 1503. (M) Last Moment Before All Ants Fall Out of a Plank
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+The entire problem hinges on whether one can reach this (rather trivial) epiphany during the alloted time. Let us examine the simplest case where there are only 2 ants walking in opposite directions. The two ants walk along the plank until they eventually meet. Say that the ant travelling towards the right is at position `2` and the other ant is at position `4`. After 1 unit of time passes, the two ants will meet at position `3`. Because changing directions happens instantaneously, the two ants have already changed directions at position `3`. Hence after 1 more unit of time, the ant that was originally moving towards the right will now be at position `2`, but now moving towards the left. The other ant will now be at position `4`, now moving towards the right. If we ignore which ant is which and simply think of this situation in terms of where the ants are and the direction in which they are travelling, we can see that the post-collision configuration is *identical* to the situation where the ants simply pass each other without colliding. That is, if the ants do *not* collide at position `3` and instead just pass each other, we will still end up with an ant moving right at position `4` and another ant moving left at position `2`. Thus, the last unit of time where the last ant falls off the plant is simply the longest amount of time it takes for an ant to walk off of the plank.  
+We simply compare `max(left)` and `n - min(right)`, returning the larger value of the two. `right` contains the initial positions of ants moving towards the right, hence an ant at position `1` will take `n - 1` time to walk off of the plank.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(n)$ where $n$ is `n`. `max(left)` and `min(right)` are both linear time operations, and the length of the lists `left` and `right` are both bound by `n` - hence the overall time complexity of $O(n)$. The space complexity is $O(1)$.  
   
 
