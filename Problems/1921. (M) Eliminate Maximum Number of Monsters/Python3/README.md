@@ -1,0 +1,10 @@
+## 1921. (M) Eliminate Maximum Number of Monsters
+
+### `solution.py`
+As we want to eliminate the *most* number of enemies, it would make sense that we should be greedily killing them in the order that they would reach the city. Even if one enemy is further away than another if it is traveling at a faster pace so that it would reach the city first, we would obviously want to shoot the faster enemy.  
+We are given the lists `dist` and `speed`, which contain the initial distances of the enemies from the city and their rate of movement, respectively. This information can be used to compute the time it would take each enemy to reach the city, which is exactly what we want. After sorting the travel time in ascending order, we can now start eliminating the enemies. Our weapon starts out fully charged, but requires a `1` minute charging period for every shot after the first. In order to determine whether our weapon can be charged to eliminate the next enemy we need to keep track of the time we have left until the next enemy reaches the city. For the first enemy this time is simply the travel time of the first enemy. We then start iterating over the sorted list. Our remaining time will be extended by the difference between the travel time of the current enemy and the previous one. We also have to remember to decrement the remaining time by `1` to account for the weapon charge time. If we have more than `0` time remaining, we can shoot the current enemy and move on to the next. These steps are continued until either we run out of time remaining, or all enemies are eliminated.  
+
+#### Conclusion
+This solution has a time complexity of $O(n\log n)$, where $n$ is the number of enemies approaching the city(`len(dist)`). Computing the travel time of each enemy takes $O(n)$ time, but the sorting step that follows takes $O(n\log n)$ time. The eliminating step also takes $O(n)$ time. Hence, the overall time complexity is $O(n\log n)$. The space complexity is $O(n)$ as the list of travel times is kept in memory, and sorting that list takes an additional $O(n)$ memory.  
+  
+
