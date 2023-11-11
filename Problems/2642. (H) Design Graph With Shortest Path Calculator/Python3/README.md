@@ -1,0 +1,32 @@
+## 2642. (H) Design Graph With Shortest Path Calculator
+
+### `solution.py`
+There are a few shortest path algorithms to choose from - most notably Dijkstra's algorithm and Floyd-Warshall. Each one has trade-offs, which we will be examining as we implement each algorithm. For our first solution, we will be using a vanilla Dijkstra's algorithm based design.  
+The implementation of the constructor and `addEdge` is rather simple. For `__init__()`, we convert the list `edges` into an adjacency list `self._adj`, where `self._adj[u]` is a list of tuples that represent the nodes with an incoming edge from `u` alongside the edge weights. In `addEdge` we simply append the tuple `(edge[1], edge[2])` to the list `self._adj[edge[0]]`, effectively adding the given edge `edge` to the graph represented by `self._adj`.  
+For `shortestPath()`, we use Dijkstra's algorithm to compute the distance between `node1` and `node2`. [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) works by greedily considering nodes that are closest to the source node. We keep the distance from the source node in a list `d`, which are initialized to `float('inf')` (`d[node1] = 0` since the distance of a node to itself is trivially `0`). We use a priority queue for fast access to the node with the smallest distance. Starting at `node1` then, we consider its neighbors. We compute the new distance by taking the edge to that neighbor and update the neighbor's distance in `d` if the new distance is less than the current distance. Before moving on to the next neighbor, we also push the new distance along with the neighbor into the priority queue. These steps are repeated until the queue is empty, that is, all reachable nodes from `node1` has been processed(it is guaranteed that there are no cycles in the graph, which is why we do not need to keep track of visited nodes). Finally, we return `d[node2]` if it is not equal to `float('inf')`. If it is, it means that `node2` is not reachable from `node1`, and we return `-1` instead.  
+
+#### Conclusion
+Instantiating a `Graph` object will take $O(V+E)$ time, where $E$ is the length of `edges` and $V$ is `n`. The initialization of `self._adj` will take $O(V)$ time, and populating it will take $O(E)$ time. A `Graph` object will use $O(V+E+N)$ memory, where $N$ is the number of calls made to `addEdge()` during the lifecycle of a `Graph` object.  
+Calls to `addEdge()` will take $O(1)$ time as it simply appends a tuple to an existing list.  
+`shortestPath()` has a time complexity of $O(V+E\log V)$. Each time `shortestPath()` is called, we initialize a list `d` of length $V$. We then run Dijkstra's algorithm on the graph represented by `self._adj`, using a priority queue as the underlying data structure. The time complexity of this step is $O(E\log V)$, bringing the overall time complexity to $O(V+E\log V)$. The space complexity is $O(V+E)$, since the priority queue can contain at most $E$ edges.  
+  
+
+### `solution_2.py`
+The first solution works just fine, but we are only interested in finding the distance between a single pair of nodes. Thus, we can speed up `shortestPath()` a little by immediately returning whenever we finish computing the distance to `node2`. After popping a node from the priority queue, if its distance is longer than the distance in `d`, we can simply ignore the node and move on to the next node in the queue. If the node is `node2`, it means we have found the shortest distance from `node1` to `node2`, and we immediately return the distance. Otherwise, we perform the same steps as the first solution - compute the new distance, and update `d` and the queue accordingly.  
+
+#### Conclusion
+All methods have the identical time and space complexities as the first solution. `shortestPath()` however, will run faster than in practice as it stops as soon as it finds the solution instead of computing the distances for every other node in the graph.  
+  
+
+### `solution_3.py`
+The [Floyd-Warshall algorithm](https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm) is yet another algorithm that computes shortest path distances, but for every pair of nodes in the graph. It does so by using a 2D adjacency matrix, where each element represents the distance between two nodes. Here, `self._adj[u][v]` contains the distance between nodes `u` and `v`. It then examines every pair of nodes in the graph, and for each pair, every node in the graph. If the direct distance between the pair is longer than the distance between the pair *going through* a node, it updates the distance in the adjacency matrix.  
+When `Graph` is instantiated, we initialize a 2D list `self._adj` full of `float('inf')`s. We then iterate over `edges`, updating the corresponding distance between the pair of nodes. Finally, we set all diagonal entries to `0` since the distance between a node and itself is trivially `0`. We now run Floyd-Warshall on `self._adj`, updating `self._adj` with the shortest paths between all possible pairs of nodes in the graph.  
+For calls to `addEdge()`, we 'partially' run Floyd-Warshall by using `edge` as the intermediate path. Examining all pairs of nodes, if the distance between them *going through the new edge* is shorter than the original distance, we update the corresponding entry in `self._adj`.  
+When `shortestPath()` is called we simply return the shortest path between `node1` and `node2`, which is `self._adj[node1][node2]`. If this value is `float('inf')`, it means that `node2` cannot be reached from `node1`, so we return `-1`.  
+
+#### Conclusion
+Initialization of a `Graph` object has a time complexity of $O(V^2 + V^3)$. Initializing `self._adj` takes $O(V^2)$ time while the first run of Floyd-Warshall takes $O(V^3)$ time. The space complexity of a `Graph` object is $O(V^2)$.  
+Calls to `addEdge()` takes $O(V^2)$ time, since we consider every pair of nodes in the graph.  
+Lastly, calls to `shortestPath()` takes $O(1)$ time since we simply index into `self._adj` and return the stored value. Both `addEdge()` and `shortestPath()` have a space complexity of $O(1)$.  
+  
+Note that in this solution it is the method `shortestPath()` that takes constant time to run, where as the first two solutions it was `addEdge()` that had the constant time complexity. Hence, one could choose one implementation over the other based on the expected number of calls to methods `addEdge()` and `shortestPath()`.  
