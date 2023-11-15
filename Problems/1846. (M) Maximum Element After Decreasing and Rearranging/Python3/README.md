@@ -1,0 +1,16 @@
+## 1846. (M) Maximum Element After Decreasing and Rearranging
+
+### `solution.py`
+Given array of positive integers `arr`, we are asked to return the largest integer after modifying the array to meet two conditions. The first element (`arr[0]`) should be `1`, and the absolute difference of every adjacent pair of integers cannot exceed `1`. When modifying `arr`, we can perform one of two operations. We can either decrease a value to any integer smaller than itself, or we can shuffle values around `arr` in any way we want. Given this information it is not that difficult to notice that there can exist multiple ways of modifying `arr`. Among them, we want to find the most optimal method that would yield the largest maximum integer in `arr` after modification.  
+A 'compliant' array only contains values that either increase/decrease by `1` or does not change as it is iterated over. However, an array that monotonically increases would obviously be the most optimal as we want the largest maximum integer among all compliant arrays. In other words, we want to perform the *minimum* number of decreases on `arr`. These can be easily remedied by simply sorting `arr` in ascending order. We set `arr[0] = 1` if it is not already `1`, then iterate over `arr` while decreasing values when necessary. Once the iteration completes, the largest integer will be the last element in `arr`, which we can directly return.  
+
+#### Conclusion
+The time complexity of this solution is $O(n\log n)$ where $n$ is the length of `arr`. `arr` is sorted, and this step takes $O(n\log n)$ time. Iterating over `arr` takes $O(n)$ time. The space complexity is $O(n)$ due to the sorting step.  
+  
+
+### `solution_2.py`
+We can also solve this problem without actually modifying the contents of `arr` by using counter sort. Because the first element of a compliant array **must** be `1`, and the array can also only increase by `1`, it stands to reason that the largest maximum integer for an `arr` of length `n` will be bound by `n`. Hence, we can count the frequency of each value in `arr` and attempt to 'fill the gaps' as necessary. As we have already established there is no use in counting any values larger than `n`, so we simply increment the counter for `n` if a value is larger than `n`. Once the array `buckets` have been populated, we initialize the seen maximum value `ret` as `1` and start iterating over `buckets`. There are 2 cases we should consider. The first is when `ret + buckets[i] <= i`. This means that the number of `i` in `arr` is smaller than the interval `[ret + 1, i]`, and the largest value we can make up to this point is `ret + buckets[i]`. The second is the opposite case, where `ret + buckets[i] > i`. Since there are more `i`s in `arr` then there are 'spots' in the interval `[ret + 1, i]`, the largest value at this point is simply `i`. These two cases can be condensed into the single expression `ret = min(ret + buckets[i], i)`.  
+When the iteration completes, we can simply return `ret` directly.  
+
+#### Conclusion
+This solution has a time and space complexity of $O(n)$. Because we iterate over `arr` once to 'sort' the array instead of actually sorting it, the overall time complexity is reduced to $O(n)$. As we store the frequency of each value in `arr` in `buckets`, the space complexity is also $O(n)$.  
