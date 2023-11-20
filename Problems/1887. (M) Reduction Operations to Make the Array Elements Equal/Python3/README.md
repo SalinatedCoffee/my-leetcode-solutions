@@ -1,9 +1,11 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 1887. (M) Reduction Operations to Make the Array Elements Equal
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+One may get thrown off by how the first operation is worded(tiebreaking values using their indices) but in essence, we are only allowed to reduce the largest value down to the second-largest value. Thus the actual integer value of an element in `nums` is irrelevant to the number of reductions we must make to it. Rather, the number of values between it and the smallest value in `nums` is the number of reductions that must be made to a value. We want to make every element in `nums` have the same value. But because we are only allowed to reduce the integer value of an element, we obviously have no choice other than to reduce all values down to the smallest one. And because we are only allowed to reduce the largest value down to the second-largest, there is only one possible order of operations that can be performed to produce the desired result.  
+To simulate each operation, we first need to sort the array (the order does not matter, but here we have sorted `nums` in descending order) in order to sequentially access its elements in order of their integer values. We then iterate along the sorted list so that we access the largest elements first. During the iteration we compare the current element with its previous. There are two cases we have to consider here; the case where the current element is smaller than the previous, and the case where both elements are identical. For the latter, we can simply move on to the next element. For the former, let's assume that the current element is the `i`th element in the sorted list `nums`. We already know that all elements in the prefix array `nums[:i]` has already been reduced down to `nums[i-1]`. Then, if `nums[i]` is smaller than `nums[i-1]`, we know that we must reduce all `i` items in `nums[:i]` down to `nums[i]` by performing `i` reductions. Thus we can add `i` to the number of performed reductions and move on to the next element.  
+Once the iteration has completed, we can directly return the number of simulated reductions.  
 
 #### Conclusion
-\<Content\>  
+The time complexity of this solution is $O(n\log n)$, where $n$ is the length of `nums`. We first sort `nums`, which takes $O(n\log n)$ using Python's built-in sort. `nums` is then iterated over exactly once, which takes $O(n)$ time. The space complexity is $O(n)$, also due to the sorting step.  
   
 

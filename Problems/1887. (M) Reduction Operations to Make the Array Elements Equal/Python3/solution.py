@@ -1,6 +1,6 @@
 class Solution:
   def reductionOperations(self, nums: List[int]) -> int:
-    # greedy algorithm on sorted list
+    # sort list and simulate
 
     n = len(nums)
     nums.sort(reverse=True)
