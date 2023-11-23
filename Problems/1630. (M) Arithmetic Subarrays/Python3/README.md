@@ -1,0 +1,18 @@
+## 1630. (M) Arithmetic Subarrays
+
+### `solution.py`
+The most straightforward solution is to simply evaluate every subarray manually. If a subarray is sorted, and the difference between two adjacent values are the same for all pairs in that subarray, then the subarray is arithmetic. Simultaneously iterating over lists `l` and `r`, we extract the corresponding subarray from `nums` and sort the list in ascending order. We then determine the difference from the first and second values of the sorted subarray, after which we iterate along the list while comparing the difference between adjacent values to the one computed earlier. Whenever the values are not equal it means that the array is not arithmetic, and so we immediately stop iterating over the sorted subarray and append a `False` to the return list. If the iteration exits normally, the subarray is indeed arithmetic and we append a `True` to the return list instead.  
+We can directly return the list of booleans once we have evaluated all of the subarray ranges defined by `l` and `r`.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn\log n)$ where $m$ is the length of `l` and `r` (number of subarray queries) and $n$ is the length of `nums`. We evaluate all subarrays defined by `l` and `r`, and evaluating a subarray takes $O(n\log n)$ time as the subarray is sorted and its length is bound by $n$. The space complexity is $O(n)$ since we slice `nums` to create a separate list containing the subarray, after which it is sorted. Both operations use $O(n)$ memory.    
+  
+
+### `solution_2.py`
+We can slightly improve upon the first solution by eliminating the sorting step. An arithmetic array essentially contains the values $a+(d*0), a+(d*1), a+(d*2),...,a+(d*n)$, where $a$ is the smallest value in the array, and $d$ is the difference between any two adjacent values. Using this property, we can compute what the difference 'should' be given a list of integers. As mentioned previously $a$ is the smallest value in the array, and $a+(d*n) = b$ is the largest value. Given an array of integers `arr`, these two values can be easily retrieved in linear time. If we rearrange the equation for $b$ with respect to $d$, we get that $d*n = b - a \rightarrow d = (b - a) \div n$. We already know what $a$ and $b$ are, and $n$ can be trivially computed by either using the length of the given array or the range indices provided to us in `l` and `r`. With regards to the resulting value of $d$ there are 2 cases to consider. If $d$ is not an integer, than the array cannot possibly be arithmetic. If it is, all values in the set of integers described above should exist in the given array.  
+The implementation is similar to the first solution, with the sorting step being replaced with the algorithm described above. We first convert the subarray into a `set` to avoid iterating over the subarray for each value search. Then $d$ is computed, after which the inner loop is skipped if $d$ is not an integer. If it is, we check if all values in the proposed arithmetic array exists in the subarray `s_a`. Whenever a check fails we exit the loop immediately, appending `False` to the return array.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$. We convert each subarray into a `set`, after which it is checked for every value of the proposed arithmetic array. This step takes $O(n)$ time to complete. The space complexity is still $O(n)$.  
+There is yet another method that involves preprocessing `nums` using a mathematical algorithm that brings down the time complexity to $O(m\sqrt{n})$. The algorithm is known as [Mo's algorithm](https://cp-algorithms.com/data_structures/sqrt_decomposition.html#mos-algorithm), for those who are interested.  
+
