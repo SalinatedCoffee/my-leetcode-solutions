@@ -1,0 +1,9 @@
+## 2482. (M) Difference Between Ones and Zeros in Row and Column
+
+### `solution.py`
+For all elements in `grid`, we are asked to compute the difference between the number of `1`s and `0`s in an element's row and column. That is, the value of `diff[i][j]` would be `ones_row[i] + ones_col[j] - zeros_row[i] - zeros_col[j]` where the prefix `ones_` denote the number of `1`s and `zeros_` the number of `0`s. As there are many elements in a row and column, it is evident that we will be reusing the same values for each computation. Instead of counting the number of `1`s for the same row and column repeatedly, we can simply count it beforehand and store them in separate lists `row` and `col`. For each position in `grid` we want to compute the value of $ones - zeros$, where $ones$ is the sum of `1`s in the row and column of a position and $zeros$ the sum of `0`s. Since `grid` can only contain `0`s and `1`s we can subtract $ones$ from the sum of the row and column lengths to obtain $zeros$ without actually counting `0`s. substituting in $total - ones$ for $zeros$, as we only have counted the number of `1`s, we then get that $ones - zeros = ones - (total - ones) = ones - total + ones = 2ones - total$. $total$ is simply `len(grid) + len(grid[0])`, and $ones$ is `row[i] + col[j]`. Hence, we would need to compute the value of `2 * (row[i] + col[j]) - (len(grid) + len(grid[0]))` for all possible `i` and `j`.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$, where $m$ and $n$ are the dimensions of `grid`. `grid` is iterated over once during the counting step, after which we compute the difference for each element in `grid`. The space complexity is $O(m + n)$, as we keep `row` and `col` in memory. This could be optimized down to $O(1)$ if we perform the counting and computation steps for each row and column, instead of the whole matrix.  
+  
+
