@@ -1,9 +1,26 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 2353. (M) Design a Food Rating System
 
-### `\<solution filename\>`
-\<Content\>  
+### `TLE.py`
+The naïve solution would be to just maintain lists of foods in the same cuisine, and sort that list every time `highestRated` is called. We maintain 2 dictionaries `self._food` and `self._cuis`. `self._food` maps the food name with its rating, while `self._cuis` maps a cuisine name with the list of foods within that cuisine.  
+When `changeRating(food, newRating)` is called, we simply update `self._food[food]` with `newRating`. For `highestRated(cuisine)`, we want a list of corresponding foods sorted by their rating, then sorted by their names in reverse order of however the rating was sorted. Here, we have opted to sort the rating in ascending order, and so we need to sort the names in descending order. Python's built in sort is stable, and thus we can sort the list of foods two times to achieve the result we want. We sort by the secondary key first, sorting the list of foods in descending order of their names. Then we sort by the primary key, sorting the sorted list in ascending order of their ratings. Finally we return the last element of the sorted list, which is the food with the highest rating(also the food with the lexicographically smallest name among those with the same rating).  
 
 #### Conclusion
-\<Content\>  
+$n$ is the number of foods when the `FoodRatings` object is instantiated.  
+Object instantiation takes $O(n\log n)$ time since instantiating `self._food` takes $O(n)$ time, and populating `self._cuis` takes $O(n\log n)$ time. For `self._cuis`, we push a tuple on a heap for every food. As pushing an element on a heap takes $O(\log n)$ time, this step will take $O(n\log n)$ time to complete. A `FoodRatings` object will use $O(n)$ space.  
+Calls to `changeRating(food, newRating)` will take $O(1)$ time and space as we only reassign `self._food[food]` with `newRating`.  
+Calls to `highestRated(cuisine)` will take $O(n\log n)$ time and $O(n)$ space, as a list containing the foods within `cuisine` is sorted twice every time the method is called.  
+  
+
+
+### `solution.py`
+The first attempt will fail with TLE as `highestRated` wastes a lot of time sorting the foods of a cuisine repeatedly. If for example, `highestRated` was called multiple times on the same cuisine without any changes to the food ratings, it will perform 2 sorts *per call* when only 2 sorts would be sufficient.  
+Instead, we can use some other data structure to store the list of foods per cuisine instead. We want to retrieve the highest rated food given a cuisine, so the natural choice would be a max heap. This can be achieved with Python's `heapq` module with the negation hack, but we also want to ensure that ties are broken with the lexicographical order of the food names. Thankfully this is already implicitly handled by the `heapq` module, where if the heap contains tuples, the next elements are compared whenever the current elements are tied. In combination with the negation hack, the keys are also sorted in the desired order where the (negated) ratings are sorted in descending order while the names are sorted in ascending order.  
+The last problem that requires addressing is when `changeRating` is called. While we can access a food's rating in constant time using a dictionary, we cannot do the same for heaps. If we were to **replace** a food's entry in its heap, we would have to first find the corresponding item in the heap, delete it, and then push the updated item back onto the heap. In the worst case, these series of operations would take $O(n\log n)$ time, which would defeat the purpose of using heaps. Instead we can ask ourselves whether it is necessary to remove the old entry in the heap - and the answer would be no. Other than the ratings in the heap, we also keep track of these ratings in a separate dictionary. If we use this dictionary as the authoratitive source, we can verify whether an entry in a heap is valid or not by comparing the rating with the one in the dictionary.  
+Using this method we can simply push the tuple `(-newRating, food)` on to the corresponding heap when `changeRating` is called, while also remembering to update the rating in the dictionary `self._food`. When `highestRated` is called, we verify the item on top of the appropriate heap. If it is valid, we can simply return the food name of that item. Otherwise, we keep popping items off the top of the heap until we find an item that is valid.  
+
+#### Conclusion
+Instantiating a `FoodRatings` object takes $O(n\log n)$ time to complete, as we wrap each food name with its rating in a tuple then push it onto a heap. A `FoodRatings` object will use $O(n+m)$ memory during its lifetime, where $m$ is the number of calls made to `changeRating`. When `changeRating` is called, a new entry gets pushed onto a heap. `highestRated` is responsible of popping off 'stale' entries, but this depends on the actual ratings of the items and `highestRated` may not be called at all.  
+Each call to `changeRating` takes $O(\log n)$ time to run as we push a tuple containing the updated rating onto a heap. It will use $O(1)$ memory.  
+Calls to `highestRated` will take $O(n\log n)$ time to complete as we pop items off of a heap until a valid tuple is found. It will also use $O(1)$ memory.  
   
 
