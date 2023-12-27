@@ -5,7 +5,7 @@ class Solution:
     
     @cache
     def recurse(i, last):
-      # return minimum time to make colors[:i] colorful,
+      # return minimum time to make colors[i:] colorful,
       # where last balloon has color last
       if i >= n:
         return 0

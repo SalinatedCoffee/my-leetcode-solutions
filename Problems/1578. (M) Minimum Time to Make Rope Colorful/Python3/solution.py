@@ -5,7 +5,7 @@ class Solution:
     
     @cache
     def recurse(i):
-      # return value of recurse(i) is minimum time to make colors[:i] colorful
+      # return value of recurse(i) is minimum time to make colors[i:] colorful
       if i >= n:
         return 0
       ret = 0
