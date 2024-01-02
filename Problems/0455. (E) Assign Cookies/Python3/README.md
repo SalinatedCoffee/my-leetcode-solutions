@@ -1,0 +1,9 @@
+## 455. (E) Assign Cookies
+
+### `solution.py`
+We want to find the most number of pairs of elements in `g` and `s` where `g[i] <= s[j]`. The optimal way of distributing cookies would be to match a greed factor with the closest cookie size. This allows us to 'save' the larger cookies for later, which increases the chances of being able to give a cookie to a child with a larger greed factor. In order to achieve this in an efficient manner, we need to sort `g` and `s` since we would have to check all values in both arrays when determining a single pair. We also have to keep track of which children and which cookies we have already examined, which we can do by maintaining a pointer to each of the sorted arrays. Because `g` and `s` are both sorted in ascending order, we know that if `g[i] > s[j]` for some `i` and `j`, any cookies in `s[:j]` cannot possibly be given to any of the children in `g[i:]`. If we assume that we have also already examined the children in `g[:i]`, we can iteratively check all of the values in both arrays to determine the maximum number of distributable cookies. Starting at the first elements of each array, we compare the two values that the pointers point to. If `g[i] <= s[j]`, we can give the `j`th cookie to the `i`th child, and so we increment the counter `ret` by `1` and advance both pointers to the next element. Otherwise, we only advance the pointer `j`. We repeat these steps until we run out of either children or cookies to consider.    
+
+#### Conclusion
+The time complexity is $O(m\log m + n\log n)$ where $m$ and $n$ are the length of `g` and `s`, respectively. Both input arrays are sorted using Python's built in `list.sort()` method, which takes $O(n\log n)$ time to perform. Iterating over the sorted lists take $O(m + n)$ time, which is outscaled by the sorting step. The space complexity is $O(m + n)$, also due to the sorting step.  
+  
+
