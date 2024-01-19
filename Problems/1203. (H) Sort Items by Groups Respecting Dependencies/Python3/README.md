@@ -1,9 +1,12 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 1203. (H) Sort Items by Groups Respecting Dependencies
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+Intuition tells us that we could somehow generate a graph based on the information given, and order the nodes using topological sort. The main difficulty comes from the fact that there are 2 criteria that have to be factored in when performing the ordering. Handling `beforeItems` is rather straightforward; we can simply add a directed edge from `i` to `j` for all `i` in `beforeItems[i]`. Turning our attention to how we should be handling `groups` then, we should first consider 2 different cases. The first case would be when 2 nodes with a `beforeItems` relationship are in the same group. In this case we should make sure that the nodes appear in the appropriate order within their group. The other case is when the nodes appear in different groups. In this case we need to make sure that the respective *group* of each node appears in the appropriate order. These 2 cases tell us that we could sort by nodes and groups separately, much like how multi-field sorting is performed on say a list of tuples.  
+To achieve this, we need to generate 2 graphs; one concerning individual nodes, and one concerning groups. We will run topological sort on each of these graphs, resulting in one list of ordered nodes and another list with ordered graphs. The list of nodes can then be partitioned into sublists of nodes from each group, after which the sublists can be merged back into a complete list of nodes using the ordered list of groups.  
+The function `t_sort` implements [Kahn's algorithm](https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm), which traverses a graph based on the indegrees of each node. It can also detect cycles by checking the indegrees after the algorithm has finished running, at which point `t_sort` returns an empty list to signify that an ordering is impossible(due to the problem constraints it is guaranteed to be at least 1 element in both node and group orderings). If either ordering is determined to be impossible (or possibly both) the complete ordering is also impossible, so we return an empty list as requested by the problem.  
+One more detail that is easy to miss is handling nodes that are not part of a group. Because we want to treat these nodes as separate entities in terms of groups, we assign them arbitrary groups that contain only the singular node.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(m+n+E)$ where $m$, $n$, and $E$ are `m`, `n`, and the number of edges as defined in `beforeItems`, respectively. Topological sort on a graph with $i$ nodes and $e$ edges takes $O(i + e)$ time. We run topological sort on two graphs where one contains $n$ nodes and $E$ edges, and the other $m$ nodes and $O(E)$ edges. Hence, the overall time complexity is $O(m+n+E)$. The space complexity is $O(m^2+n^2)$, since `adj_g` and `adj_n` can each contain $m^2$ and $n^2$ edges respectively. An ordering may not exist for a graph, but we generate the adjacency lists *before* `t_sort` can detect a cycle; hence the space complexity of $O(m^2 + n^2)$.  
   
 
