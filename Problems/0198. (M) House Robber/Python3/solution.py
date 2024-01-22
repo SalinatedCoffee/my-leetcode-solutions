@@ -1,18 +1,15 @@
 class Solution:
   def rob(self, nums: List[int]) -> int:
-    # dynamic programming
+    # top-down dynamic programming (memoization)
 
-    # sanity check
-    if not nums:
-      return 0
-    
-    # dp[i] = maximum stolen up to nums[i-1]
-    dp = [0] * (len(nums)+1)
-    dp[1] = nums[0]
+    n = len(nums)
 
-    for i in range(1, len(nums)):
-      # either steal from current or skip
-      dp[i+1] = max(dp[i-1]+nums[i], dp[i])
-    
-    return dp[-1]
+    @cache
+    def recurse(i):
+      # return maximum haul stealing from nums[:i] houses
+      if i < 0:
+        return 0
+      return max(nums[i] + recurse(i-2), recurse(i-1))
+
+    return recurse(n-1)
 
