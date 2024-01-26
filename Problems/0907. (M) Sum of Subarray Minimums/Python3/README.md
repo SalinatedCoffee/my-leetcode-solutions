@@ -1,9 +1,20 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 907. (M) Sum of Subarray Minimums
 
-### `\<solution filename\>`
-\<Content\>  
+### `TLE.py`
+The first instinct of course would be to take a dynamic programming based approach, where each state is represented by 2 integers with one representing the start of the subarray and the other the end of the subarray. If we know the smallest value of some subarray, we can trivially determine the smallest value of that subarray extended by 1. Once these values have been determined for all possible subarrays of `arr`, we can compute the desired value by calculating the sum of all of these values. However, this approach will fail with TLE (and possibly MLE) and no amount of optimization will allow it to pass as evidenced by the provided implementation(no recursion overhead, only uses a single integer to store intermediate values).  
 
 #### Conclusion
-\<Content\>  
+This algorithm has a time complexity of $O(n^2)$ where $n$ is the length of `arr`. Each state is represented by 2 values, both of which are bound by $n$. The space complexity is $O(1)$.  
+  
+
+
+### `solution.py`
+We now know that we need a solution that runs in sub-quadratic time. Going back to the drawing board, we can see that the minimum value for a subarray will not change even when it is extended if the newly added value is larger than the minimum value. Can we somehow exploit this property to simply calculate the number of subarrays with the same minimum value? Say we have some subarray of length 7 where the 3rd element is the smallest value in the subarray. A visual representation of such an array would be `[i, i, m, i, i, i, i]` with `i` being any integer where `i > m`. Looking at the visual representation it is not that difficult to realize that the number of subarrays with the minimum value `m` is simply the number of items to the **left** of `m` multiplied by the that of the items to the **right** of `m` (inclusive). The sum of minimums for this set of subarrays can now be trivially calculated by evaluating the result of `3 * 5 * m`. We can generalize this for *any* element in `arr`, allowing us to optimally compute the number of arrays with the same minimum value. The task at hand now becomes figuring out how to generate a list of such indices. The brute force method will require quadratic time to run, which defeats the purpose. A logarithmic algorithm seems unlikely to exist, and thus the hypothesis is that the optimal algorithm will run in linear time. A monotonic stack can be very useful here, as it allows us to do exactly that. It is a specialized data structure that uses a stack to store elements, where at any point in time the items it contains either only increase or decrease. This ordering is enforced by how the items are popped and pushed into the stack, where an item, once popped, is never pushed back onto the stack. For our problem, an increasing monotonic stack should be used as we want the first *smallest* items to either side of an element in `arr`.  
+We first initialize a list of length `n`. The `i`th item in this list will contain the index of the first element in `arr` smaller than `arr[i]` towards its left. For the first item in `arr`, we arbitrairily    assign `-1` since there are no items to its left. In fact, we fill the entire array with `-1` as it may be the case that `arr` is strictly decreasing, and there are no items towards the left that is smaller. We then initialize an empty stack, and start iterating over `arr` from left to right. At each item, we first check the top of the stack and determine whether the value is larger than or equal to the current value. If it is, we pop it off of the stack, and continue until either the stack is empty or the top element is less than the current value. After this step, if the stack is not empty, the top element on the stack is the first smallest value to the left of the current element in `arr`, and so we update the list with that value. Finally, we push the current element onto the stack and move on to the next value in `arr`. We can use the same algorithm for the other direction, with the differences being that the list is now initialized with `n`, `arr` is iterated over in reverse, and we pop from the stack when the top element is strictly larger than the current value.  
+Once we have the two lists of indices, we simply compute the sum of subarray minimums using the method described above.  
+
+
+#### Conclusion
+This solution has a time and space complexity of $O(n)$ where $n$ is the length of `arr`. Populating `left` and `right` each takes $O(n)$ time as `arr` is iterated over once for each list. The subsequent step of calculating the sum of subarray minimums also takes $O(n)$ time. `left` and `right` are both lists of length `n`, hence the overall space compelxity of $O(n)$.  
   
 
