@@ -1,0 +1,11 @@
+## 232. (E) Implement Queue using Stacks
+
+### `solution.py`
+We are asked to implement a queue using only stacks. The key part of solving this problem is figuring out how to reconcile the differences between the two data structures, which is the difference between the insertion and access positions. Items are inserted into queues on one side, and they are sequentially accessed at the other side. For stacks these positions are the same. If we simply add the items into the stack as if we would into a queue, the item on the top of the stack would be the last item in the queue. If we wanted to pop (or peek) the first item of the queue, we would have to first empty the stack to get to the item at the bottom. If we maintain two stacks, we can empty one into the other, and remove (or return) the item on the top of the now populated stack.  
+When `MyQueue` is initialized, we also initialize two empty lists `_a` and `_b` (which we will use like stacks) and a boolean `_reverse`. Whenever a method is called on the `MyQueue` instance, only `_a` will contain the items pushed into the queue. `_reverse` denotes the direction of which the items are held inside `_a`, with `True` meaning that the top of `_a` is the *last* item of the queue, and `False` meaning otherwise. The utility method `_flip` empties the contents of `_a` into `_b`, and swaps the two stacks so that `_a` is now `_b` and vice versa.  
+The only item we have immediate access to is the top of stack `_a`. When `pop` or `peek` is called, and `_reverse` is `True`, we need to reverse the contents of `_a`, which we can do by calling `_flip`. We then simply return the item on top of `_a`, removing it altogether in the case of `pop`. For `push` we do the opposite, reversing `_a` when the topmost item is the first element in the queue.  
+
+#### Conclusion
+The time complexity of `push`, `pop` and `peek` is $O(n)$, where $n$ is the number of items held in the `MyQueue` instance. These three methods reverse the contents of `_a` when required, which takes $O(n)$ time to complete. `__init__` and `empty` take $O(1)$ time. The overall space complexity is $O(n)$, as at any point in time only 1 copy of the items inserted into the `MyQueue` instance exist.  
+  
+
