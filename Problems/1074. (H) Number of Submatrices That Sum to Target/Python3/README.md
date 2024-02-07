@@ -1,9 +1,10 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 1074. (H) Number of Submatrices That Sum to Target
 
-### `\<solution filename\>`
-\<Content\>  
+### `solution.py`
+The brute force method is obviously not feasible, as we would have to compute the sum of all possible submatrices in `matrix`. As we need to compute the sum of a submatrix to determine whether to count it or not, we should first focus on devising a way to quickly calculate the sum for any given submatrix. We can precompute the prefix sums of `matrix` to achieve this, as doing so will allow us to calculate the sum of any submatrix using only a handful of additional constant time operations. If the 2D list `prefix` contains the per-row prefix sums of `matrix`, we can compute the sum of the submatrix `(y1, x1, y2, x2)` by taking the sum of `prefix[i][x2] - prefix[i][x1]` for all `i` in the interval `[y1, y2]`. We now need to determine a way to count all submatrices that sum to `target`. Here, we have no choice but to count all possible submatrices in `matrix`. Instead of taking the brute force approach though, is there a way that we can reduce the number of required operations? If we select two arbitrary columns in `matrix`, and incrementally compute the sum of the submatrix starting at the top while keeping track of the intermediate results, we can check whether a valid submatrix exists between the first and current row being considered by checking if the cumulative sum was at any point equal to `cum_sum - target`(with `cum_sum` being the *current* cumulative submatrix sum). If it was, we can simply subtract that submatrix from the current one to get a submatrix that sums to `target`. One thing to remember is that `matrix` can contain negative values, which means that there could be *multiple* submatrices that sum up to the same value. These previous values can be stored in a dictionary, where the submatrix sum is used as the key, and the number of times that that sum was encountered as the value. For each section of each row between the two columns, we compute `cum_sum - target` and check if it is in the dictionary. If it is, we increment the counter `ret` by the number of times that the sum was previously encountered.  
+These steps are repeated for every possible pairs of columns, after which we simply return the counter `ret`.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(mn^2)$ where $m$ and $n$ are the number of rows and columns in `matrix`, respectively. Populating `prefix` takes $O(mn)$ time. We then incrementally compute the cumulative submatrix sum for every pair of columns in `matrix`, of which there are $O(n^2)$ of. Computing this submatrix sum for a single column pair takes $O(m)$ time. Hence, the overall time complexity is $O(mn + mn^2) = O(mn^2)$. The space complexity is $O(mn)$, as `prefix` uses $O(mn)$ memory and the dictionary `sums` can at most hold $O(m)$ key-value pairs.  
   
 
