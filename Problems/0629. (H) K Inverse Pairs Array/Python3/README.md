@@ -1,6 +1,14 @@
-## \<Problem Number\>. (\<Difficulty\>) \<Problem Title\>
+## 629. (H) K Inverse Pairs Array
 
-### `\<solution filename\>`
+### `solution.py`
+\<Content\>  
+
+#### Conclusion
+\<Content\>  
+  
+
+
+### `solution_2.py`
 \<Content\>  
 
 #### Conclusion
