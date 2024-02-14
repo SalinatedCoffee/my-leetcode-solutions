@@ -48,7 +48,7 @@ top_path="$(dirname -- "${BASH_SOURCE[0]}")"
 # construct path and set up problem directory if it doesn't exist
 path="$top_path/Problems/$padded. ($2) $3/$lang"
 if [ -d "$path" ]; then
-  echo "Problem #$1 already exists at $path."
+  echo "Problem #$1 already exists at $path; exiting"
   exit 0
 fi
 mkdir -p "$path"
@@ -70,7 +70,11 @@ touch "$path/solution.$ext"
 # for now, add expanations for all languages other than Java
 if ! [[ $ext == "java" ]]
 then
-  cp "$top_path/README_template.md" "$path/README.md"
+  touch "$path/README.md"
+  printf "## $1. ($2) $3\n\n" >> "$path/README.md"
+  # TODO: this will append the rest of the template to the problem title, 
+  #       consider implementing language detection to change solution file extension
+  cat "$top_path/README_template_body.md" >> "$path/README.md"
 fi
-echo "$path"
+echo "Initialized new problem at $path"
 
