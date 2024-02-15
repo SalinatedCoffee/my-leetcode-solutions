@@ -1,9 +1,10 @@
 ## 2971. (M) Find Polygon With the Largest Perimeter
 
-### `solution.`
-\<Content\>  
+### `solution.py`
+We are asked to find the longest perimeter of a polygon using the values in `nums` as edge lengths. A polygon is a collection of edges where $e_1 \leq e_2 \leq ... \leq e_n$ and $sum(e_1, e_2, ..., e_{n-1}) \gt e_n$. That is, for any collection of edges, if the longest edge is shorter than the sum of all other edges, then those edges form a polygon. Thankfully we are not interested in the actual set of edges, but only their sum. If we sort `nums` in ascending order and compute the prefix sum for each index, we can determine whether a polygon can be formed using the edges in the prefix array by checking whether the prefix sum is larger than the current edge being considered. If the current edge is indeed longer, than there is no way to 'elongate' the length of the prefix as there are no other edges that can be added to it without changing the current edge being considered. For the other case, the prefix array already contains the most number of edges that would form a polygon with the current edge. Hence, we can greedily take all edges if the current set of edges can form a polygon.  
+As described above, we first sort `nums` in ascending order. We then initialize the integer `pre` with the sum of the first two elements in the sorted `nums`, since a polygon must contain at least 3 edges. Finally, we start iterating over `nums` from the third element, and evaluate the expression `nums[i] < pre`. If it evaluates to `True`, we update `ret` accordingly. Otherwise, we update the prefix sum to include the current edge and move on to the next edge in `nums`. Once all edges have been considered, we can simply return the value of `ret`, which will contain the desired value.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(n\log n)$ where $n$ is the length of `nums`. `nums` is sorted before being iterated over, and this takes $O(n\log n)$ time to complete using Python's built in `list.sort()`. `nums` is then iterated over once, with each of its elements taking $O(1)$ time to process. The space complexity is $O(n)$, as sorting `nums` uses $O(n)$ memory.  
   
 
