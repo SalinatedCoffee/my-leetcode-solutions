@@ -5,5 +5,5 @@ There are 2 facts about `nums` that we can take for granted. One is that `nums` 
 
 #### Conclusion
 The time complexity of this solution is $O(n)$, where $n$ is the length of `nums`. The space complexity is $O(1)$.  
-  
+For languages that have fixed-sized integers(which is... pretty much all languages other than Python) `sum(nums)` may cause integer overflow. To avoid this, we can compute the XOR sum of `nums` instead, and XOR that value to the XOR sum up to `n`.  
 
