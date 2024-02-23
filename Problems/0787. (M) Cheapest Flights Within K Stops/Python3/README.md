@@ -8,7 +8,7 @@ This algorithm runs in $O(n^2)$ time and uses $O(n)$ space, where $n$ is the num
   
 
 ### `solution.py`
-We may optimize the previous algorithm further by realizing that we may prune paths early if the cost taken to reach a node from `src` is larger than the cost of a previous visit. To do this, we store the minimum costs in a list of length `n`. During traversal, we can move on to the next node in the queue early when the current cost is larger than `min_prices[current_node]`.  
+We may optimize the previous algorithm further by realizing that we may prune paths early if the cost taken to reach a node from `src` is larger than the cost of a previous visit. To do this, we store the minimum costs in a list of length `n`. During traversal, we can move on to the next node in the queue early when the current cost is larger than `min_prices[current_node]`. This is exactly [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm), slightly modified to omit information about the previous node as we are only interested in the total weight of a path.  
 
 #### Conclusion
 The solution has a time complexity of $O(n^2)$ and a space complexity of $O(n)$. While the asymptotic time complexity is the same as the TLE algorithm, the early pruning optimization speeds up the practical runtime enough to pass all test cases.  

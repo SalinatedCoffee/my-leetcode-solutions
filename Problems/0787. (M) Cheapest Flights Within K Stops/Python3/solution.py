@@ -1,11 +1,10 @@
 class Solution:
   def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-    # BFS, with memoized minimum prices to nodes
+    # Dijkstra's algorithm
 
     # generate adjacency list
     adj = [[] for _ in range(n)]
-    for flight in flights:
-      f, t, p = flight
+    for f, t, p in flights:
       adj[f].append((t, p))
 
     # cheapest prices to nodes
@@ -17,7 +16,7 @@ class Solution:
     while visit:
       p, c, s = visit.popleft()
       # update min. price for node c as necessary
-      min_prices[c] = p if p < min_prices[c] else min_prices[c]
+      min_prices[c] = min(min_prices[c], p) 
       # current expenditure exceeds cheapest price to current
       if p > min_prices[c]:
         continue
