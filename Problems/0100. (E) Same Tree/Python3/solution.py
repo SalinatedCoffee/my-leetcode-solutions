@@ -1,11 +1,7 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
 class Solution:
   def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+    # stacks
+
     stack_p = [p]
     stack_q = [q]
     while stack_p:
@@ -22,5 +18,6 @@ class Solution:
         stack_p.append(cur_p.left)
         stack_q.append(cur_q.right)
         stack_q.append(cur_q.left)
+
     return True
 
