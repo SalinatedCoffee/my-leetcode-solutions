@@ -5,7 +5,7 @@
 # print usage
 if [[ ( $@ == "--help" ) || ( $@ == "-h" ) ]]
 then
-  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language (Python3|Java|MySQL)]"
+  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language (Python3|Java|MySQL|JS)]"
   exit 0
 fi
 
@@ -16,7 +16,12 @@ case $# in
     lang="Python3"
   ;;
   4)
-    lang=$4
+    if [[ $4 == "JS" ]]
+    then
+      lang="JavaScript"
+    else
+      lang=$4
+    fi
   ;;
   *)
     echo "Expected 3-4 arguments, got $# instead"
@@ -63,6 +68,9 @@ case $lang in
   ;;
   "MySQL")
     ext="sql"
+  ;;
+  "JavaScript")
+    ext="js"
   ;;
 esac
 touch "$path/solution.$ext"
