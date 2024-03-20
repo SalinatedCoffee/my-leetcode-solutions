@@ -1,9 +1,10 @@
 ## 621. (M) Task Scheduler
 
-### `solution.`
-\<Content\>  
+### `solution.py`
+My initial approach was to try simulating each 'cycle' by using the number of remaining unique tasks. If there are more unique tasks than `n`, we can perform each unique task once in a single 'run', after which we start another cycle. This however did not take into account cases where a task can be 'interleaved' between different tasks, such as when `tasks = ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G']` and `n = 2`. In this case, the algorithm described would perform `'A', 'B', ...,'G'` in one run, leaving 6 `'A'`s remaining which would have to be performed with an extraneous idle for each task. Instead, we can clearly see that we can perform an `'A'`, then some other task that is not `'A'` and repeat until we have performed all tasks.  
+The correct approach would be to greedily schedule tasks based on its frequency count. This way, task `'A'` will be prioritized when scheduling each cycle, which is the behavior we want. This can be implemented by using a max heap containing the frequency of each unique task(simulated by storing negated counts in a min heap). We first iterate over `tasks` to generate a frequency list of all unique tasks. This list is then converted into a heap, after which we start simulating each cycle. A cycle takes `n+1` time to run, and so we intialize the counter `cycle` to `n+1`. We also initialize an empty list and another counter, which will store the updated counts of performed tasks and the number of performed tasks during the current cycle. Then, we pop a task off the heap and process it until either the current cycle completes or there are no more tasks to perform. Once the inner while loop exits, we add the updated freqencies back onto the heap (if they exist) and update the time elapsed. These steps are then continued until there are no remaining tasks, at which point we can simply return the total elapsed time.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(n)$, where $n$ is the length of `tasks`. `tasks` is iterated over once to first count the number of each unique task, and the code block starting with the outer while statement will effectively run $n$ times as it simulates performing each task in successive cycles. Pop/push operations on the heap each take $O(k)$ time to perform. For this problem however, `tasks` only contains uppercase English letters, of which there are 26 unique letters. Thus, $O(k)$ becomes $O(26)$, which is constant. Hence the overall time complexity comes out to be $O(n)$. The space complexity is $O(1)$, also due to $O(k)$ being evaluated to $O(1)$.  
   
 
