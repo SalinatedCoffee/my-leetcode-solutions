@@ -1,41 +1,30 @@
 class Solution:
   def reorderList(self, head: Optional[ListNode]) -> None:
-    # reverse the right half first, then interleave
+    # slow/fast pointers and partial list reversal
 
-    # double pointer at different speeds
-    # slow points to first node in right half
+    # find first node of latter half of list
     slow, fast = head, head
     while fast:
       slow = slow.next
-      if fast.next is None:
-        break
-      fast = fast.next.next
+      fast = fast.next.next if fast.next else fast.next
     
-    # reverse right half
-    cur = slow
-    prev = None
+    # reverse latter half
+    prev, cur = None, slow
     while cur:
       temp = cur.next
       cur.next = prev
       prev = cur
       cur = temp
     
-    # right half doesn't exist
-    if prev is None:
-      return head
+    # interleave the two halves
+    cur = head
+    while prev:
+      t1, t2 = cur.next, prev.next
+      cur.next = prev
+      prev.next = t1
+      cur, prev = t1, t2
     
-    # interleave left and right halves
-    cur_l, cur_r = head, prev
-    while cur_r:
-      temp_l, temp_r = cur_l.next, cur_r.next
-      cur_l.next = cur_r
-      cur_l = temp_l
-      cur_r.next = cur_l
-      cur_r = temp_r
-    
-    # if ll is odd length, terminate ll properly
-    if cur_l:
-      cur_l.next = None
-    
-    return head
+    # properly terminate tail when list has odd length
+    if cur:
+      cur.next = None
 
