@@ -1,9 +1,11 @@
 ## 992. (H) Subarrays with K Different Integers
 
-### `solution.`
-\<Content\>  
+### `solution.py`
+An approach involving directly counting all valid subarrays using a sliding window is indeed viable, but the actual implementation can get a little complicated. Instead, we can sacrifice a little bit of time to write a simpler solution. Counting subarrays with *exactly* `k` unique values is complicated, but counting subarrays with *at most* `k` unique values is significantly less so. If we can implement an algorithm that returns the number of subarrays containing at most `k` unique values, we can determine the number of subarrays containing exactly `k` unique values by subtracting the number of subarrays containing at most `k-1` unique values from that of `k` values.  
+We define a function `at_most_K` that takes a single integer and returns the number of subarrays of `nums` that has at most `k` unique integers. The empty dictionary `freq` is initialized, in which we will store the frequency of each unique value within the current window. Iterating over `nums` then, we first increment the frequency count of the current element of `nums`. If the window contains more than `k` unique values, we contract the window from the left by decrementing the counter for the left most value of the window and then advancing the pointer that points to that value by `1`. Finally, we count the number of subarrays that extend to the left of the current window by incrementing the counter by `i - l + 1`, where `i` is the index of the current value of `nums` and `l` is the index of the first (leftmost) item of the current window. Note that we do not check the cardinality of the current window when counting subarrays, as the previous step guarantees that it will be at most `k` when counting. Once the entirety of `nums` has been examined, we simply return the counted number of subarrays.  
+As mentioned previously, the desired value is simply `at_most_K(k) - at_most_K(k-1)`, which we can directly return.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(n)$, where $n$ is the length of `nums`. `nums` is at most iterated over 4 times; twice for each call to `at_most_K`. Each element takes $O(1)$ time to compute, hence the overall time complexity of $O(4n) = O(n)$. The space complexity is also $O(n)$ as `freq` can contain at most $O(n)$ key-value pairs(when all elements of `nums` are unique).  
   
 
