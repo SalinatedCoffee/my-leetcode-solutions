@@ -1,8 +1,9 @@
 class Solution:
   def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
-    # multiple pointers, compute count on the fly
+    # sliding window with multiple pointers
 
     ret = 0
+    # indices of most recently seen min/max and out-of-bounds values
     min_idx = max_idx = l = -1
 
     for i in range(len(nums)):

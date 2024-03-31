@@ -1,9 +1,10 @@
 class Solution {
   public long countSubarrays(int[] nums, int minK, int maxK) {
-    // multiple pointers, compute count on the fly
+    // sliding window with multiple pointers
 
     // match return type
     long ret = 0;
+    // indices of most recently seen min/max and out-of-bounds values
     int min_idx, max_idx, l;
     // works for immutable data, integers are immutable in Java
     min_idx = max_idx = l = -1;
