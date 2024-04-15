@@ -8,8 +8,8 @@ class Solution:
     ret = [0] * n
     for card in deck:
       ret[queue_idx.popleft()] = card
-      if queue_idx:
-        queue_idx.append(queue_idx.popleft())
+      # pop and requeue
+      queue_idx.rotate(-1)
 
     return ret
 
