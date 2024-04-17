@@ -1,9 +1,12 @@
 ## 85. (H) Maximal Rectangle
 
-### `solution.`
-\<Content\>  
+### `solution.py`
+The brute force solution involves manually computing the area of all rectangles in `matrix`. As there are $O(n^2)$ possible rectangles with each one taking $O(n^2)$ time to check whether they only contain `1`s, this approach is obviously very inefficient and will most likely fail with TLE. There are 2 problems that we need to solve; we first need to devise a method to quicklt compute the area of a valid rectangle, and then we need to figure out how to efficiently search for the larger rectangles.  
+Let's first work on the first problem. By visualising `matrix`, we can see that we can solve this problem by taking a 'histogram-based' approach. We iterate over `matrix` row-by-row, keeping a rolling sum of each column. This list of rolling sums `row` will serve as our histogram, with `row[i]` containing the sum of the `i`th column up to the current row. A sum should be reset to `0` if the cell in `matrix` is `0`, as we only want the area of rectangles that are full of `1`s. Now we can easily compute the area of valid rectangles upwards of the current row by evaluating the expression `min(row[i], row[j]) * (j-i+1)` where `i` and `j` are in the range `[0, len(row))` and `i <= j`. Implementing this algorithm will reduce the time complexity of the brute force solution by a factor of $n$, but we can do better.  
+The problem now becomes coming up with an algorithm that efficiently searches for the largest rectangles for each histogram. Here, we can use something called a monotonic stack to solve this problem. A monotonic stack is exactly that; a stack where its contents either monotonically increase or decrease. The ordering is implicitly enforced by removing items in the stack until the topmost item is either smaller or larger than the item being pushed onto it. Since we want to compute the largest area of the histogram, we should implement an increasing monotonic stack. After updating the column sums for the current row, we iterate over the list of sums. If the column sum on top of the stack is larger than the current column sum, we pop it off of the stack until the top is smaller than or equal to the current sum. While popping from the stack, we also compute the area of rectangles by using the value of the popped item as the height, and the difference between the current top of the stack and current column number as the width. If the stack is empty, the width is simply the current column number. After updating the largest area accordingly, we continue popping form the stack as necessary.  
+Once the entirety of `matrix` has been examined, we can simply return the largest area seen.  
 
 #### Conclusion
-\<Content\>  
+This solution has a time complexity of $O(mn)$, where $m$ and $n$ are the number of rows and columns in `matrix`, respectively. `matrix` is processed row by row, of which there are $m$ of. Processing each row takes at most $O(3n) = O(n)$ time, since the row is iterated over once to compute the rolling column sums, and the stack is interacted with $O(2n)$ times. The space complexity is $O(n)$, due to `row` and `stack`.  
   
 
