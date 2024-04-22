@@ -2,13 +2,11 @@ class Solution:
   def openLock(self, deadends: List[str], target: str) -> int:
     # iterative BFS
 
-    de_set = set(deadends)
-
     nodes = deque([("0000", 0)])
     visited = set()
     while nodes:
       cur, d = nodes.popleft()
-      if cur in visited or cur in de_set:
+      if cur in visited:
         continue
       if cur == target:
         return d
