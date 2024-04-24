@@ -1,0 +1,9 @@
+## 1992. (M) Find All Groups of Farmland
+
+### `solution.py`
+We want to find all plots of farmland in `land`, along with their coordinates for the upper-left and bottom-right cells. This can be easily achieved by scanning `land` from left to right and top to bottom, performing DFS whenever an unvisited land cell is found.  
+Before `land` is scanned, we initialize the empty set `visited`, which will contain the coordinates of all visited land cells. Then we start iterating over `land` starting at `land[0][0]`. If a cell is a land cell, and its coordinates are not in `visited`, we run DFS using that cell as the source node. During the traversal we keep track of the largest coordinates, which will be the coordinates of the lower right land cell of the plot of farmland being traversed. The upper left cell will be the cell where the DFS was initiated. Since we are scanning `land` from left to right, and top to bottom, we know that any unvisited land cells that we encounter is guaranteed to be the upper left cell of its plot of farmland. After the traversal completes, we append the appropriate coordinateds to the return list `ret`, and continue scanning `land` to completion.   
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$, where $m$ and $n$ are the dimensions of `land`. The entirety of `land` is scanned exactly once, with each non-land cell taking $O(1)$ time to process. When a DFS traversal is triggered, it will traverse over every adjacent land cell. DFS takes $O(|V| + |E|)$ time where $V$ is the set of vertices and $E$ the set of edges. As there can be at most $mn$ land cells in `land`, and no land cell is touched by DFS more than once, all DFS traversals performed over the course of scanning `land` will take $O(mn)$ time to complete. Hence, the overall time complexity of this solution is $O(mn)$. The space complexity is also $O(mn)$, both due to the DFS traversals and the set `visited`.  
+  
