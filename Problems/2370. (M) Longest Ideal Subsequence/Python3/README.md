@@ -1,9 +1,12 @@
 ## 2370. (M) Longest Ideal Subsequence
 
-### `solution.`
-\<Content\>  
+### `solution.py`
+Intuition tells us that the problem can be solved through a dynamic programming based approach, as it can be divided into smaller subproblems. If we know the length of the longest ideal subsequence(LIS) of the substring `s[:i]`, we can trivially compute the length of the LIS of `s[:i+1]`. In order to achieve this however, we must also keep track of the most recent letter added to the LIS since whether a new letter can be added to the LIS depends on this information.  
+We will define the function `recurse`, which takes 2 parameters `idx` and `c`. `recurse` will return the length of the LIS within `s[:idx+1]`, where the `c`th letter of the alphabet was most recently added to the LIS of `s[:idx]`. The return values of `recurse` will be memoized in the 2D list `dp`, where `dp[i][j]` contains the return value of `recurse(i, j)`. When `recurse(idx, c)` is called, we first intialize the return variable `ret` depending on whether the current letter `s[idx]` is the same as the letter last added `c`. If yes, `ret` is initialized as `1`. Otherwise, it is initialized with `0`. Then, if the current character is not the first character of `s`, we overwrite `ret` with the value of `recurse(idx-1, c)` which corresponds to the choice of skipping the current character. If the current letter is equal to `c`, then the current letter can be added to the LIS. We try all possible choices(`recurse(idx-1, p)` for all `p` in the range `[0, 25]` that satisfies `abs(c - p) <= k`) among which we select the largest value.  
+As we want the length of the LIS in the entirety of `s`, and the LIS can end in any lowercase English letter, we return the largest value among `recurse(len(s)-1, c)` where `c` is in the range `[0, 25]`.  
 
 #### Conclusion
-\<Content\>  
+The time complexity of this solution is $O(nk)$ where $n$ is the length of `s` and `k` is the size of the alphabet of `s`. Each state in the recurrence relation is represented by 2 integers, each of which are bound by $n$ and $k$, respectively. As we compute the value of every possible state and the computation of each state takes $O(1)$ time, it takes $O(nk)$ time to evaluate all states. The space complexity is also $O(nk)$ since we memoize the value of each state in memory.  
+Note that it could be argued that the time and space complexities are actually $O(n)$ as $k$ is a fixed value($26$).  
   
 
