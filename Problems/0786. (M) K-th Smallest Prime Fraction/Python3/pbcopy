@@ -1,4 +1,4 @@
-class Solution:
+class Solution:
   def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
     # binary search
 
@@ -13,11 +13,8 @@
       j = 1
       # count number of fractions smaller than m
       for i in range(n - 1):
-        # if the numerator is arr[i], find first denominator
-        # that yields a smaller value than middle value
         while j < n and arr[i] >= m * arr[j]:
           j += 1
-        # denominators larger than arr[j] yields smaller value than m
         count += (n - j)
         if j == n:
           break
