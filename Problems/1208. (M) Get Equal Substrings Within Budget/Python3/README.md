@@ -1,0 +1,10 @@
+## 1208. (M) Get Equal Substrings Within Budget
+
+### `solution.py`
+Given a pair of strings of equal length `s` and `t`, the cost of converting the substring `s[i:j]`(where `i < j` and `i` and `j` are both in the range `[0, len(s))`) to `t[i:j]` is the sum of `abs(ord(s[k]) - ord(t[k]))` for all `k` in the range `[i, j)`. That is, the cost of converting some character `s[i]` to `t[i]` is the absolute difference between the ASCII values of `s[i]` and `t[i]`. We are then asked to return the length of the longest substring of `s` that costs less than or equal to `maxCost` to convert. Because we are working with *substrings*, we can immediately see that we can take a sliding window approach to this problem, contracting the window whenever the total cost exceeds `maxCost`.  
+We first precompute the cost of each character pair in the list `cost`. `cost[i]` will contain the value `abs(ord(s[i]) - ord(t[i]))` for all `i` in the range `0 <= i < len(s)`. The sliding window step can then be performed after initializing the values `l`, `cur`, and `ret`. `l` is the index of the beginning of the window, `cur` the total cost of converting the current window, and `ret` the length of the longest convertible substring up to this point. Iterating over `s`, we first try adding the current character pair to the window by adding `cost[i]` to `cur`. The window is then contracted until `cur` becomes less than or equal to `maxCost` by removing the character pair at `l` and incrementing `l` by `1`. After this step the window is guaranteed to have a valid cost, and we update `ret` accordingly with the length of the current window. Once the iteration completes, `ret` will contain the desired value.  
+
+#### Conclusion
+The time and space complexity of this solution is $O(n)$, where $n$ is the length of `s`. Precomputing the conversion cost of each character pair takes $O(n)$ time, as well as the sliding window step that follows. Each conversion cost is kept in memory until `equalSubstring` exits, hence the space complexity of $O(n)$.  
+  
+
