@@ -1,0 +1,9 @@
+## 409. (E) Longest Palindrome
+
+### `solution.py`
+Thinking about the problem, we first realize that only one unique letter can appear an odd number of times in the palindrome, where one of that letter appearing in the center of an odd-lengthed palindrome. Any other letter that also appear an odd number of times in `s` must exclude one letter when forming the palindrome. As long as the frequency is odd, it does not matter which letter we choose to place in the center; we only need to determine whether at least one such letter exists in the given string `s`. We first count the number of each unique letter in `s` by passing it into a `Counter`(which uses a dictionary under the hood). Then, we iterate over its values while halving each value with integer division, and adding that value to the total. If the value also happens to be odd, we signify that an odd value exists by setting the variable `odd` to `1`. Once all values have been examined, the sum will be the length of half of the longest *even-lengthed* palindrome that can be formed. Before returning the length of the full palindrome by multiplying this value by `2`, we check `odd` to see whether there was a letter that appears an odd number of times in `s`. If so, we can extend the palindrome by `1` by squeezing in that letter between the two halves, so we return the full length incremented by `1`. Otherwise, we return the full length directly.  
+
+#### Conclusion
+This solution has a time complexity of $O(n)$, where $n$ is the length of `s`. Generating a frequency map of `s` takes $O(n)$ time, as `s` must be iterated over to count the occurences of each unique letter. The space complexity is $O(1)$, as the `Counter` `freq` can contain at most 52 key-value pairs since `s` can only contain lowercase and uppercase English letters.  
+  
+
