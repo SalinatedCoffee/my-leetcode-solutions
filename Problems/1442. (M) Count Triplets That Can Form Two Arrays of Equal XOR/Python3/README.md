@@ -1,0 +1,9 @@
+## 1442. (M) Count Triplets That Can Form Two Arrays of Equal XOR
+
+### `solution.py`
+A valid triplet consists of 3 integers `i`, `j`, and `k` where they are in the interval `[0, len(arr))`, satisfies the inequality `i < j <= k`, and `arr[i] ^ arr[i+1] ^ ... ^ arr[j-1] == arr[j] ^ arr[j+1] ^ ... ^ arr[k]`. A brute force solution that tries XORing the subarrays for all possible triplets would obviously take too long to run. Instead, we can exploit the properties of the XOR operation to greatly speed up the process by performing a small amount of precomputation. Because XOR is both commutative and associative, `a ^ a == 0` and `a ^ 0 == a` for any value `a`. Hence, we can rearrange the expression in the third condition to `arr[i] ^ arr[i+1] ^ ... ^ arr[k] == 0`. And again through the properties of the XOR operation, there are 2 things that we can say about this expression. One is that this equality can be trivially evaluated if we know the prefix XOR sum of `arr[i]` and `arr[k]`(a value XORed with itself yields a value of 0), and another is that if the expression evaluates to true, the value of `j` does not matter as long as it is in the interval `(i, k]`. Thus, if we precompute the prefix sum of each element in `arr`, we can efficiently count the number of valid triplets by trying all possible pairs of `i` and `k`. If the prefix XOR values of `i` and `k` are equal, the number of possible triplets is simply `k - i - 1`, which is added to the total number of triplets. Once all pairs have been considered, we can directly return the number of counted triplets.  
+
+#### Conclusion
+This solution has a time complexity of $O(n^2)$, where $n$ is the length of `arr`. There are $O(n^2)$ pairs of `i` and `k` in `arr`, and since each pair takes $O(1)$ time to evaluate, the overall time complexity becomes $O(n^2)$. The space complexity is $O(n)$, as the prefix XOR sums are kept in memory during the lifetime of the algorithm.  
+  
+
