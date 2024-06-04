@@ -1,0 +1,10 @@
+## 260. (M) Single Number III
+
+### `solution.py`
+The first instinct would be to try implementing an approach that involves XOR operations between values. We know that in a similar situation where there is only one unique number instead of two, XORing all elements in `nums` would yield the unique value. For this problem, this will instead be the two unique values(let's call them `A` and `B`) XORed(so `A ^ B`). Now that we have the value of `A ^ B`, the problem now becomes devising a way to 'un-XOR' the two values. XOR is of course a lossy operation, so there is no way to restore the values as-is. If we could somehow partition `nums` into two parts, where each part contains duplicates except for `A` or `B`, we could simply XOR the values of one partition to determine the value of either `A` or `B`, and retrieve the remainder by XORing that value with `A ^ B`, which we had computed earlier. How can we do this? If a bit is raised after XORing two values, we know that the two values must differ wherever that bit is positioned. Based on this, if the `i`th bit is raised in `A ^ B`, we can partition `nums` into two groups; one where all values have their `i`th bit raised, and another where the bit is not raised. Given the problem constraints, it is guaranteed that there is at least one raised bit in `A ^ B`, so we do not have to worry about handling any edge cases.  
+With this information, we can start implementing a solution. We first compute the XOR sum of all elements of `nums`, after which we arbitrarily search for some raised `i`th bit within that XOR sum. Then, we make a second pass over `nums`, XORing a value only if its `i`th bit is also raised. The resulting value is one of the two non-duplicate elements of `nums`, and the other can be trivially retrieved by XORing this value with the XOR sum of `nums` computed earlier.  
+
+#### Conclusion
+The time complexity of this solution is $O(n)$, where $n$ is the length of `nums`. Two passes are made over `nums` with both passes processing each element in $O(1)$ time, bringing the overall time complexity to $O(n + n) = O(n)$. The space complexity is $O(1)$.  
+  
+
