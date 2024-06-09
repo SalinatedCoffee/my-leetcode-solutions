@@ -1,19 +1,22 @@
 class Solution:
   def subarraysDivByK(self, nums: List[int], k: int) -> int:
+    # prefix sums
+
+    ret = 0
+    # prefix sum up to current element mod k
     prefixMod = 0
-    res = 0
-    # modGroups[i] contains number of subarrays where sum % k == i
+    # modGroups[i] is the number of subarrays where sum % k == i
     modGroups = [0] * k
-    # intialize to 1 to account for entire array is valid
+    # intialize to 1 to account for when the entire array is valid
     modGroups[0] = 1
 
-    for i, n in enumerate(nums):
+    for num in nums:
       # compute mod k of prefix sum
-      prefixMod = (prefixMod + n % k + k) % k
+      prefixMod = (prefixMod + num) % k
       # count number of valid subarrays
-      res = res + modGroups[prefixMod]
-      # increment number of subarrays where sum % k == pref. sum % k
+      ret += modGroups[prefixMod]
+      # increment number of subarrays where their sum mod k is prefixMod
       modGroups[prefixMod] += 1
     
-    return res
+    return ret
 
