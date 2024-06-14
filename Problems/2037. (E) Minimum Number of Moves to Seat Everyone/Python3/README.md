@@ -1,0 +1,10 @@
+## 2037. (E) Minimum Number of Moves to Seat Everyone
+
+### `solution.py`
+Given a list of seats and students, we want to determine the minimum number of operations required to seat every student in different seats(if `seats` contains `i` number of seats with the same number, `i` students can be seated at that number). A single operation involves either increasing or decreasing the seat number of a student by `1`. As we are asked to minimize the number of operations, we would want to sort both `seats` and `students` in ascending(or descending) order and simply sum up the absolute differences between each element from the two lists. As is typically the case with greedy algorithm problems, the solution is easy to intuit, but difficult to prove mathematically. The general line of thought behind this approach is that we want to reduce the 'distance' between a student and a seat as much as possible, which is why we sort the two lists. Because all students must be seated, it does not matter if there is a seat closer in value to a student outside its 'seat-student pair'. For example, let `seats = [3, 5]` and `students = [5, 6]`. Obviously, the `0`th student is closer to the `1`st seat, as they are the same value. Assigning the `0`th student to the `1`st seat however, means that we would have to perform an additional operation to move the `1`st student to the `0`th seat, and in both cases, the number of operations required is `3`.  
+Thus, after sorting `seats` and `students`, we iterate over the two lists simultaneously while summing up the absolute difference between the two values. Once all pairs have been examined, the total sum of absolute differences is the answer we want.  
+
+#### Conclusion
+This solution has a time complexity of $O(n\log n)$, where $n$ is the length of `seats`. `seats` and `students` are both lists of length $n$, and sorting them using Python's built in sort will each take $O(n\log n)$ time to complete. Computing the sum of absolute differences take $O(n)$ time, putting the overall time complexity at $O(n\log n)$. The space complexity is $O(n)$, due to the sorting step.  
+  
+
