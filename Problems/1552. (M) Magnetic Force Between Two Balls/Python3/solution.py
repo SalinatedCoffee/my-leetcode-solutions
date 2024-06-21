@@ -5,7 +5,7 @@ class Solution:
     n = len(position)
     position.sort()
     # set initial search space
-    l, h = 1, max(position) // (m-1)
+    l, h = 1, position[-1] // (m-1)
     ret = 0
     while l <= h:
       mid = l + (h - l) // 2
