@@ -1,0 +1,10 @@
+## 1248. (M) Count Number of Nice Subarrays
+
+### `solution.py`
+Given a list of integers `nums`, we are asked to return the number of subarrays that contain exactly `k` odd numbers. The most straightforward approach is the brute force approach that examines all possible subarrays of `nums`. However, since there are $O(n^2)$ subarrays with each subarray taking $O(n)$ time to examine, this method will have a time complexity of $O(n^3)$. We can do better by realizing that if an array contains `i+j` odd elements and a prefix of that array contains `j` elements, we can create a subarray by removing the prefix from the entire array. That is, if we know that a prefix array of `nums` contains `k + i` odd elements and the number of prefix subarrays that contain `i` odd elements is `j`, the number of subarrays that contain exactly `k` odd values is `j`.  
+We first initialize the `defaultdict` `pre_freq`. The value of `pre_freq[i]` will be the number of prefix subarrays that contain exactly `i` odd elements. The integers `ret` and `cur` are then initialized, with `ret` containing the number of subarrays with exactly `k` odd integers and `cur` the current number of odd values. `nums` is the iterated over, with `cur` being incremented by `1` if the current value is odd. The number of 'exactly `k`' subarrays are then counted by consulting the value of `pre_freq[cur-k]`, which is added onto `ret`. Finally, we count the current prefix subarray by incrementing the value of `pre_freq[cur]` by `1`. These steps are repeated until all values of `nums` have been examined, after which we simply return the value `ret`.  
+
+#### Conclusion
+This solution has a time complexity of $O(n)$ where $n$ is the length of `nums`. Initialilzing the empty dictionary `pre_freq` takes $O(1)$ time, after which `nums` is traversed exactly once. Each element in `nums` takes $O(1)$ time to process, bringing the overall time complexity to $O(n)$. The space complexity is also $O(n)$, as the number of odd elements in `nums` is bound by the length of `nums`, which is $n$.  
+  
+
