@@ -8,7 +8,7 @@ class Solution:
     b = ("ba", y) if a[0] == "ab" else ("ab", x)
 
     def remove_ss(ss):
-      # returns score by greedily removing ss from s where ss is worth s_ss points
+      # returns score by greedily removing ss[0] from s where ss[0] is worth ss[1] points
       stack = []
       for c in self.s:
         if stack and stack[-1] + c == ss[0]:
