@@ -1,0 +1,10 @@
+## 264. (M) Ugly Number II
+
+### `solution.py`
+A number is 'ugly' when its prime factors consist of only `2`, `3`, and `5`s. That is, an ugly number can be expressed as $2^i\cdot 3^j\cdot 5^k$ where $i$, $j$, and $k$ are non-negative integers. Given the integer `n`, we are asked to return the `n`th ugly number starting at `1`. Obviously, there will be more non-ugly numbers than there are ugly, and thus we should avoid the brute force approach that checks every integer starting from `1` until `n` ugly numbers have been found. Instead, we can generate only the ugly numbers and iterate over them in ascending order. Because an ugly number can only have `2`, `3`, and `5` as its factors, we know that we can create a new ugly number from some ugly number `i` by multiplying it by `2`, `3`, and `5`. By generating ugly numbers and storing them in a min heap, we can naturally iterate over all ugly numbers in ascending order. Because we are multiplying values to generate the numbers, we must also keep track of previously generated ugly numbers using a set to avoid reiterating over old numbers.  
+The constant `FACTORS` will be a list containing the 3 prime factors. `heap` will be the min heap used to store the generated ugly numbers, and `seen` will be the set of previously seen ugly numbers. After initializing the current ugly number `cur` as `1`, we enter a loop that repeats `n` times. The smallest ugly number is popped off of the heap, after which we try to generate its next ugly number and push it onto the heap. If a number has already been seen, it is simply discarded. Otherwise, the new number is added to `seen` and then pushed onto `heap`. Once the loop exits, the value of `cur` will be the `n`th ugly number.  
+
+#### Conclusion
+This solution has a time complexity of $O(n\log n)$ where $n$ is `n`. `heap` can contain $O(n)$ values, and since there are a fixed number of operations per loop iteration performed on `heap`, the overall time complexity becomes $O(n\log n)$. The space complexity is $O(n)$, due to `heap` and `seen`.  
+  
+
