@@ -1,0 +1,10 @@
+## 1905. (M) Count Sub Islands
+
+### `solution.py`
+`grid1` and `grid2` are `m*n` lists consisting of `0`s and `1`s. If a cell contains `0`, it means that it is a water cell. If it contains a `1`, then it is a land cell. An island is a collection of land cells that are connected in the 4 cardinal directions. Given the 2 lists then, we are asked to return the number of islands in `grid2` where the land cells of each island are also land cells in `grid1`.  
+The key point here is that *all* land cells in a `grid2` island must also be `1` in `grid1`, which means that partial landmasses in `grid2` can never be an island. In other words, if landmasses were represented as sets of land cells, a set in `grid2` must be a subset of a set in `grid1` for it to be an island. We can easily see that an island is just a connected component when the grid is interpreted as a graph, and thus we should be taking either a union-find or DFS based approach. Here, we will be taking the DFS approach as it can be implemented with fewer lines of code. The set of tuples `visited` will contain the coordinates of all land squares that have been previously visited, and while iterating over `grid2`, we will start a DFS traversal whenever an unvisited land square is encountered. During the traversal each land square of the landmass will be compared with that of `grid1`, and a flag will be tripped if any of the land squares in `grid2` is not a land square in `grid1`. When the traversal completes, the flag will be checked to determine whether the landmass is an island or not.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$ where $m$ and $n$ are the dimensions of `grid1` and `grid2`. Every cell in `grid2` will be visited at most twice, with a single cell in `grid2` referencing its counterpart in `grid1` at most once. Since each visit and referencing all take $O(1)$ time each, the overall time complexity becomes $O(mn)$. The space complexity is also $O(mn)$, due to the DFS traversal and `visited`.  
+  
+
