@@ -1,0 +1,10 @@
+## 2326. (M) Spiral Matrix IV
+
+### `solution.py`
+Given the integers `m` and `n`, as well as the head node of a singly linked list `head`, we are asked to fill in an `m` by `n` matrix with the values of the nodes in the linked list in a spiraling pattern. The pattern starts at the upper-right cell moving to the right and spirals inward, changing the direction 90 degrees to the right every time the next square is not available.  
+As is usually the case with 'filling a matrix using a pattern' problems like this the idea behind the solution is rather simple, but the implementation is slightly trickier to get right. For this problem, we can simulate each step until we reach the tail of the linked list. We first initialize an `m` by `n` 2D list filled with `-1`(which will allow us to tell whether a square has been filled or not), as well as the list of unit vectors `VEC`. The current position within the matrix `res` will be kept track of through the integers `y` and `x`, and the direction with `v`, which is an index in the unit vector array `VEC`. After initializing the reference to the current list linked node `cur` with `head`, we can start populating `res` with the contents of the linked list. While `cur` is not `None`, we first fill the current square of `res` with `cur.val` and then determine if we should change direction. A direction change happens when the next square is not available; that is, when it is either out of bounds of `res` or it contains a value other than `-1`. If either of these conditions evaluate to `True`, we change direction by advancing the unit vector index `v` by `1` and applying modulo `4`. After moving to the next square and the next node in the linked list, we repeat the steps described until `cur` points to `None`.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$ where $m$ and $n$ are `m` and `n`, respectively. Initializing `ret`, as well as filling it with the contents of the given linked list each require $O(mn)$ time to complete. The space complexity is $O(1)$, excluding the return matrix `res`.  
+  
+
