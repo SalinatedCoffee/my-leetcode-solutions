@@ -5,8 +5,7 @@ class Solution:
     m, n = len(arr1), len(arr2)
     # generate trie from arr1
     root = {}
-    for num in arr1:
-      num = str(num)
+    for num in map(str, arr1):
       cur = root
       for c in num:
         if c not in cur:
@@ -15,8 +14,7 @@ class Solution:
     
     # find length of longest common prefix
     res = 0
-    for num in arr2:
-      num = str(num)
+    for num in map(str, arr2):
       cur, d = root, 0
       for c in num:
         if c not in cur:
