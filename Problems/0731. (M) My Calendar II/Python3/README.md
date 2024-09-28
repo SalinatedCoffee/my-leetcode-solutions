@@ -1,0 +1,12 @@
+## 731. (M) My Calendar II
+
+### `solution.py`
+We are asked to design the class `MyCalendarTwo`, which keeps track of booked events. `MyCalendarTwo` should implement a single public method called `book` which takes two integers and returns a boolean. The arguments `start` and `end` represent a time span of an event, with `[start, end)` being the time span during which the event occurs. When `book` is called, `MyCalendarTwo` should only book the event if it does not result in a triple booking. If it does, the event should be ignored and `book` should return `False`. Otherwise, the event should be booked and `True` should be returned.  
+The simplest approach would be to check for conflicts using brute force. If we maintain two lists, with one containing the booked events and the other containing the conflicting *intervals* of the booked events, we can easily check whether booking a new event would result in a triple booking. When `book` is called, we iterate over the list of conflicting(double booked) intervals to check for any conflicts. If there are none, we book the new event and update both lists accordingly.  
+`MyCalendarTwo` initializes the empty lists `MyCalendarTwo.events` and `MyCalendarTwo.overlap` when it is instantiated. It implements 2 private methods `_overlaps` and `_getOverlap`, both of which takes 2 event intervals in the form of 4 integers. The former returns `False` if the two events conflict, and `True` otherwise. The latter returns the overlapping section of the two events as a tuple of integers. When `book(start, end)` is called, `MyCalendarTwo.overlap` is linearly scanned to check for any conflicts using `_overlaps`. If one is detected, the given event cannot be booked, and we return `False` without doing anything else. Otherwise we know that the event can be booked, and we update `MyCalendarTwo.overlap` by linearly scanning over `MyCalendarTwo.events` and calling `_getOverlap` on every event that overlaps with `[start, end)`. Finally, the given event is added to `MyCalendarTwo.events` before returning `True`.  
+
+#### Conclusion
+Instantiating a `MyCalendarTwo` object takes $O(1)$ time to complete. Each call to `book` requires $O(n)$ time to finish where $n$ is the number of calls that will be made to `book`. `book` iterates over `self.events` and `self.overlap` once, with each of them taking $O(n)$ time to complete. Over the lifecycle of a `MyCalendarTwo` object, `book` will take $O(n^2)$ time to process every call made to it.  
+The space complexity is $O(n)$.  
+  
+
