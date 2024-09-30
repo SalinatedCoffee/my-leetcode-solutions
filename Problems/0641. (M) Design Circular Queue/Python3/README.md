@@ -1,0 +1,12 @@
+## 641. (M) Design Circular Queue
+
+### `solution.py`
+We are asked to implement the class `MyCircularDeque`, which should support inserting/removing/reading items from either end of the queue as well as checking whether it is empty or full.  
+Because a maximum capacity must be specified when instantiating a `MyCircularDeque` object, we can store the elements in a list and simulate a deque using 2 indices. One will point to the front of the queue, while the other will point to the end. Since the deque is circular, it may be the case that the index of the first item is larger than that of the last item; that is, the deque wraps around the end of the internal list. Because of this, we cannot easily determine whether the deque is full by using the two indices. Instead, we will explicitly keep track of the number of elements in the queue and compare this with the length of the internal list to determine whether the deque is full.  
+`MyCircularDeque` has the 4 instance variables `_items`, `_size`, `_head`, and `_tail`. `_items` is a list of integers of length `k`. A value of `-1` means that the location is vacant. `_size` is the number of elements inside the *deque*. `_head` is the index of the first item in the deque minus `1`, and `_tail` is the index of the last item in the deque plus `1`. Because the list is initially empty `_head` and `_tail` are initialized to `0` and `1` respectively, meaning that the 'imaginary space' between the `0`th and `1`st elements of `_items` corresponds to the deque. When an item is added to the deque, the value is inserted at `_head` or `_tail` *before* advancing the pointers in the appropriate direction. Naturally, these operations are performed in reverse order when removing an item, with the pointers being updated before the values are removed. As the pointers point to the elements in `_items` that come before and after the contents of the deque, we need to remember to access the correct element in the list when asked to return the first or last item in the deque. The empty/full methods are trivial to implement as we know the number of elements in the deque and the capacity of the `MyCircularDeque` instance.  
+
+#### Conclusion
+Instantiation of a `MyCircularDeque` object has a time and space complexity of $O(k)$, where $k$ is `k`. The initialization of `self._items` requires $O(k)$ time and is kept in memory over the entire lifespan of the instance.  
+Calls to any other methods will complete in $O(1)$ time, and will require $O(1)$ extra space.  
+  
+
