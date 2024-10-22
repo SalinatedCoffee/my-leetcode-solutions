@@ -1,0 +1,10 @@
+## 2583. (M) Kth Largest Sum in a Binary Tree
+
+### `solution.py`
+Given the root `root` of a binary tree, we are asked to return the `k`th largest level sum in the tree, or `-1` if the tree has a height less than `k`. We can easily compute the level sums by using BFS to traverse the tree. As we do not know the height of the tree until it has been fully traversed, we can use a dictionary to store the sum of each level. Once the traversal completes, we simply sort the level sums in descending order and return the `k`th largest sum.  
+We will be implementing the iterative flavor of BFS, using the deque `nodes` to enqueue nodes and their levels within the tree. Before starting the traversal we also initialize the dictionary `sums`, where the value of `sums[i]` will be the sum of nodes on the level `i`. As the tree is traversed, we first update the level sum of the current node. The node's children are then enqueued before moving onto the next node to be traversed. Once the traversal is complete, the values of `sums` will be the level sums of the given tree. We sort the list of values in descending order, and return the `k`th element if there are `k` or more elements inside `sums`. Otherwise, the `k`th largest level sum does not exist and we return `-1` as instructed by the problem.  
+
+#### Conclusion
+This solution has a time complexity of $O(n+\log h)$ where $n$ is the number of nodes in the tree rooted at `root` and $h$ is the height of the tree. Traversing the tree requires $O(n)$ time to complete as each and every node in the tree is visited. A single node takes $O(1)$ time to process, bringing the time complexity of the traversal step require $O(n)$ time. The level sums are then sorted in order to return the desired value, which takes $O(\log h)$ time to complete. The space complexity is $O(\max(n, h))$. The deque `nodes` uses $O(n)$ memory, but is completely emptied by the time the traversal finishes. Sorting the level sums requires $O(h)$ space using Python's built in sort, hence the overall space complexity of $O(\max(n, h))$.  
+  
+
