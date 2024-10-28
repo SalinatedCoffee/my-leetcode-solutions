@@ -1,0 +1,10 @@
+## 1233. (M) Remove Sub-Folders from the Filesystem
+
+### `solution.py`
+Given the list of directory paths `folders`, we are asked to return a list of paths in `folders` that is not a subdirectory of any other path in `folders`. A path is a non-empty string containing only lowercase English letters and forward slashes(`'/'`), excluding the root folder `/`. A folder `i` is a subdirectory of folder `j` if its prefix is equal to `i + '/'`. For example, the folder `/apple/banana/cherry` is a subdirectory of `/apple`.  
+Intuition tells us that we can easily solve this problem by implementing a trie, first populating it with all paths in `folder` and then traversing it, backing out immediately as soon as a match is found. The object `_Node` will represent a single node within the trie, with `_Node.word` representing whether the current node is a matching node and `_Node.children` being a dictionary containing the child nodes of the current node. After instantiating the root node `root`, `folders` is iterated over while populating the trie with its contents. Once all paths have been processed, the trie is traversed recursively while keeping track of the current working directory in the stack `cur`. Whenever the value of `.word` is `True` for a node, the current working directory is concatenated into a string and added to the list of root folders `res`. Once the traversal completes, `res` will contain the desired folders and can be returned directly.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$ where $m$ is the length of `folders` and $n$ is the maximum length of the strings in `folders`. The trie is populated by the contents of `folders`, with a single path taking linear time to insert with proportion to the length of the path. When the trie is traversed the list of currently 'open' folders are concatenated whenever the current node is a 'terminating' node, which is also a linear time operation. As this can happen $m$ times at most, the overall time complexity becomes $O(mn)$. The space complexity is also $O(mn)$ because the trie is kept in memory until the algorithm exits.  
+  
+
