@@ -1,0 +1,9 @@
+## 2914. (M) Minimum Number of Changes to Make Binary String Beautiful
+
+### `solution.py`
+Given the string `s` which consists of only `0`s and `1`s, and is of even length, we are asked to determine the minimum number of moves required to make `s` 'beautiful'. A beautiful string can be broken down into substrings that are of even length, with each substring containing **only** `0`s or `1`s. For example, `000011` is a beautiful string since it can be broken down to `0000` and `11`, and `011110` is not a beautiful string because `0` has a length of `1`, which is not even. In a single move, we can change *any* character to either a `0` or a `1`. At first glance it may seem that this problem is a dynamic programming problem. If we know the minimum number of moves to make `s[:i]` beautiful, we can easily compute the number of moves to make `s[:i+1]` beautiful. Upon further ideation however, we realize that we can exploit the fact that the split substrings must be of even length. Because a beautiful string must consist of substrings of even length, we can think of a string as a collection of 'blocks'. A single block is simply a string of length 2 containing only `0`s or `1`s. If we encounter a block containing different characters, we must correct it by flipping one of the characters in order to make `s` beautiful. Thus, we can determine the minimum number of moves required to make `s` beautiful by iterating over all adjacent character pairs of `s` starting at **even indices**. As described above, we increment a counter by `1` any time we encounter a pair containing different characters. Once all pairs have been examined, we can directly return the number of taken moves.  
+
+#### Conclusion
+This solution has a time complexity of $O(n)$, where $n$ is the length of `s`. `s` is iterated over once, and each character pair takes $O(1)$ time to process. The space complexity is $O(1)$.  
+  
+
