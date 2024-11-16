@@ -1,0 +1,9 @@
+## 3254. (M) Find the Power of K-Size Subarrays I
+
+### `solution.py`
+Given the list of integers `nums` and integer `k`, we are asked to return a list of powers of all subarrays of `nums` that have a length `k`. The power of an array is the largest element of that array, if it is sorted in ascending order and is consecutive. If the array does not meet these two conditions, then its power is `-1`. First off, we know that we can easily enumerate all relevant subarrays we their length is fixed. Evaluating a single window will have a linear time complexity that scales with `k`, and since `k` is bound by the length of `nums`, we would rather not evaluate each window from scratch. Instead, we can exploit the conditions of a valid window to evaluate each subarray in constant time. For a subarray to have a power that is not `-1`, its elements should be in consecutive ascending order. This means that for all `k-1` adjacent pairs `nums[i], nums[i+1]` in that subarray of length `k`, the expressions `nums[i] > nums[i+1]` and `nums[i+1] - nums[i] == 1` **must** evaluate to `True`. Using this property we can take a sliding window approach, sliding a window of size `k` over `nums` while maintaining a counter of adjacent pairs in the window that satisfy the conditions described above. The window contains a valid subarray whenever the counter is equal to `k-1`, at which point we add the last element of the window to the list of powers. Otherwise, we add `-1` to the list instead.  
+
+#### Conclusion
+This solution has a time complexity of $O(n)$, where $n$ is the length of `nums`. Evaluating the validity of each window, as well as retrieving the power if it is valid each finish in $O(1)$ time. As there are `n - k + 1` windows total, the overall time complexity of this solution comes out to be $O(n)$. The space complexity is $O(1)$, excluding the returned list `res`.  
+  
+
