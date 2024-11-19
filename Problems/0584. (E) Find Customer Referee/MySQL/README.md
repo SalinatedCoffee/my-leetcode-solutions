@@ -1,6 +1,6 @@
 ## 584. (E) Find Customer Referee
 
-### `solution.py`
+### `solution.sql`
 The `Customer` table has the following schema:  
 
 ```text
