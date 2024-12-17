@@ -1,0 +1,10 @@
+## 2182. (M) Construct String With Repeat Limit
+
+### `solution.py`
+Given the characters in string `s`, we are asked to construct the lexicographically greatest string possible where a character is repeated at most `repeatLimit` times. Because we are asked to optimize for lexicographic cost, we can see that we could greedily construct the string, prioritizing larger letters when doing so. This approach would be the bese use case for a max heap, where we use the ASCII code of each letter as the comparision key. As we cannot repeat a character more than `repeatLimit` times, we also need to remember to keep track of the last added character and the length of the streak.  
+We first initialize a `Counter` using `s` to count the number of each unique character in `s`. The key-value pairs are then used to initialize a max heap, with the ASCII code of each character being the key, and the number of its appearance in `s` the value. After initializing the variables responsible for keeping track of the character last added, we can start building the string. The topmost item is popped off of the heap, and it is compared against the last added character. If the character is at its limit, we pop another item off of the heap and use that instead before adding both characters back onto the heap. We return the string when we cannot add more characters to it.  
+  
+#### Conclusion
+This solution has a time complexity of $O(n)$ where $n$ is the length of `s`. Initializing a `Counter` with the contents of `s` takes $O(n)$ time. The resulting `Counter` will contain at most 26 key-value pairs, as it keeps track of the frequency of each unique character in `s`. When constructing the new string, interacting with the heap should be considered as taking $O(1)$ time as the heap can hold at most 26 elements. Since the newly constructed string may contain up to $n$ characters, the construction step will take $O(n)$ time to complete; bringing the overall time complexity to $O(n)$. The space complexity is $O(1)$, since the size of the `Counter` `freq` and max heap `heap` has a constant upper bound of 26.  
+  
+
