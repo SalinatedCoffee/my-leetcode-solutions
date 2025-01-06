@@ -1,0 +1,20 @@
+## 2381. (M) Shifting Letters II
+
+### `TLE.py`
+`shifts` is a list of shift operations, where a single operation `shifts[i] = [i, j, k]` means that all letters in the substring `s[i:j+1]` should be shifted by 1 *forwards* if `k == 1`, or backwards if `k == 0`. Given the string of lowercase English letters `s` and list of operations `shifts`, we are asked to return the resulting string after all shifts have been applied.  
+The most straightforward method would be to maintain a list of integers of length `len(s)`, where each element represents the direction and number by which a character in `s` should be shifted by. As we iterate over each shift described in `shifts`, we decrement or increment all values in the range of the shift depending on the shift direction. Once all shifts have been examined, we iterate over the list of shifts and apply each perturbation on its corresponding character before reconstructing the resulting string.  
+
+#### Conclusion
+This algorithm has a time complexity of $O(mn)$, where $m$ is the length of `shifts` and $n$ is the length of `s`. Each element in `shifts` is examined exactly once, of which there are $m$ of. Processing a single shift involves modifying each value in the range of the shift. Since this range is bound by $n$, this operation will require $O(n)$ time to complete; hence the overall time complexity of $O(mn)$. The space complexity is $O(n)$, due to the list of shift values `char_shift`.  
+  
+
+
+### `solution.py`
+While the previous attempt is 'correct', it takes too long to run and is rejected upon submission with TLE. Looking over our code, it immediately becomes apparent that we should change how each shift is applied since it modifies all shift values in the described range. Upon further ideation, we notice that the characters in a given range are uniformly shifted by a fixed number. We can take advantage of this fact by keeping track of the change in shift value for each character instead of the shift value itself. Previously, a shift value in the list `char_shift` meant that the character `s[i]` would have to be shifted by `char_shift[i]`. We instead keep track of the current shift value in a separate integer, and store the value that the current shift value should be changed in the list instead. If the current shift value is `shift`, we update this value by `deltas[i]` before shifting `s[i]` by `shift`. This way, we only need to modify 2 values for each shift operation instead of $O(n)$ values. How then, would we exactly represent these shift deltas for each character in `s`?  
+Given a single shift operation `[i, j, k]`, we have to shift all characters in the substring `s[i:j+1]` by `1` if `k == 1`, or by `-1` if `k == 0`. Assuming the former, we know that the shift value for the previous character would have to be incremented by `1` before shifting `s[i]`, all the way up to `s[j]`. Before shifting `s[j+1]`, the shift values needs to be reverted to its 'previous' state by decrementing it by `1`. The reverse applies when `k == 0`.  
+The list `deltas` will be used to store the change in the current shift value, with `deltas[i]` meaning that the current shift value `shift` needs to be updated by `deltas[i]` *before* shifting `s[i]`. As we iterate over `shifts`, we first determine the shift direction by looking at `k`, and update `deltas[i]` and `deltas[j+1]` accordingly. Once all shifts have been processed, we initialize the current shift value `shift` to `0` before iterating over `s` while shifting each character. The list of shifted characters can then be concatenated to construct the resulting shifted string.  
+
+#### Conclusion
+This solution has a time complexity of $O(m+n)$. Processing the shifts require $O(m)$ time, since each shift operation now completes in $O(1)$ time compared to the previous $O(n)$. Shifting the characters of `s`, as well as reconstructing the shifted string each take $O(n)$ time to finish, bringing the overall time complexity to $O(m+n)$. The space complexity is identical to the previous algorithm.  
+  
+
