@@ -15,7 +15,7 @@ A repository of my solutions to LeetCode problems in various languages, complete
 
 All problems can be found under the `Problems` directory, where each problem has its own directory and under it, directories for each language.  
 The directory name for each problem is formatted as `number. (difficulty) title`, where `number` is the problem number in 4 digits(left padded with 0s if it is shorter), `difficulty` a single uppercase letter(`E` for easy, `M` for medium, `H` for hard), and `title` the title of the problem.  
-Code that has `solution` as the prefix in its filename is guaranteed to be accepted by LeetCode's online judge(at the time of commit); implementations that fail will be named as such depending on why they were rejected.  
+Code that has `solution` as the prefix in its filename is guaranteed to be accepted by LeetCode's online judge(at the time of commit); implementations that fail will be named as such depending on why they were rejected. Also note that all complexity analyses stated in the writeups are worst case complexities.  
 If you ever decide to fork this repo to use it for yourself, a new problem or language can be added with `new_problem.sh` by supplying it with the problem number, difficulty, problem title as a string, and language, in that order. A directory to the problem implementation will be created if it does not exist, and the template `README_template_body.md` will be copied into it, as well as an empty file corresponding to the specified language, if it is supported.  
 
 ### Example
