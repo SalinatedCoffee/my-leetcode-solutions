@@ -1,0 +1,11 @@
+## 1267. (M) Count Servers that Communicate
+
+### `solution.py`
+The `m*n` binary list `grid` represents servers on a grid, where `grid[i][j] == 1` means that there is a server on the cell at `(i, j)`. Servers can only communicate with other servers if they are on the same row or column. Our task is to determine the number of servers that can communicate with at least 1 other server.  
+While the constraints on the size of `grid` is rather small, we should still avoid using the brute force solution. We can build on the brute force approach instead, making it more efficient by exploiting a key property of the problem. Because we are only interested in whether a server can communicate with a different server or not, we do not care about the number of servers in a row or column as long as there are at least 2. If a server exists at `grid[i][j]`, and we already know the number of servers on the `i`th row and `j`th column, we can easily determine whether the server can communicate by checking whether the `i`th row *or* the `j`th column contains at least 2 servers.  
+We make 2 passes over `grid`. Once to count the number of servers in each row and column, and once to count the number of servers that can communicate. The number of servers in each row and column is stored in the lists `row_counts` and `col_counts`, respectively. Iterating over grid, if some cell `grid[i][j]` equals `1`, we increment `row_counts[i]` and `col_counts[j]` by `1`. Once we finish tallying the server counts, we make a second pass over `grid`. This time, we increment the server count by `1` if `grid[i][j]` contains a server and `row_counts[i] > 1` or `col_counts[j] > 1` evaluates to `True`. When the second pass finishes, we simply return the number of servers counted during that step.  
+
+#### Conclusion
+This solution has a time complexity of $O(mn)$, where $m$ and $n$ are the dimensions of `grid`. Initializing the server counts for the rows and columns take $O(m)$ and $O(n)$ time, respectively. Each pass over `grid` requires $O(mn)$ time to finish, as the entirety of `grid` is iterated over with each element being processed in $O(1)$ time. The space complexity is $O(m+n)$, due to `row_counts` and `col_counts`.  
+  
+
