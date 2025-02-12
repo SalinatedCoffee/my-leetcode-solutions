@@ -1,0 +1,11 @@
+## 2342. (M) Max Sum of a Pair With Equal Sum of Digits
+
+### `solution.py`
+From a list integers, we can select a pair of different elements where their sum of digits are equal. Given the list of positive integers `nums`, we are asked to determine the largest sum of a valid pair of elements. For example, if `nums = [18, 43, 36, 13, 7]`, `18` and `36` can form a pair(digit sum of `9`), as well as `43` and `7`(digit sum of `7`). Between the 2 pairs, `18` and `36` add up to `54`, which is larger than the other pair; thus returning the value of `54`.  
+Computing the digit sum of an integer is trivial; figuring out how to search for matching pairs, slightly less so. Looking at the problem constraints, we know that we should avoid taking a brute force approach that would involve examining all possible pairs of values. Instead, we turn our attention to the fact that a valid pair requires both elements to have the same digit sum. If we were to first calculate the digit sum of each and every value in `nums`, group the elements by their digit sums, and then iterate over the groups while computing the sum of the 2 largest values in a group, we can determine the largest sum of a valid pair without having to examine all possible pairs.  
+We first initialize an empty `defaultdict(list)` which will map a digit sum to a heap containing the element of `nums` with that digit sum. One thing to keep in mind is that Python does not support max heaps, so we need to negate each value before pushing it onto the heap. Once all elements have been examined, we iterate over each group and compute the sum of its 2 largest elements.  
+
+#### Conclusion
+This solution has a time complexity of $O(n(\log m + \log n))$, where $n$ is the length of `nums` and $m$ the average number of digits of the elements in `nums`. Computing the digit sum of a value in `nums` takes $O(\log m)$ time, which is performed for each and every element in the list. Pushing an element onto the appropriate heap for its digit sum takes $O(\log n)$ time, as the worst case in this scenario is when all values have the same digit sum. The space complexity is $O(n)$, as exactly 1 copy of each element in `nums` is kept in memory(`digit_sum`).  
+  
+
