@@ -1,0 +1,18 @@
+## 611. (M) Valid Triangle Number
+
+### `solution.py`
+Given the list of edge lengths `nums`, we are asked to return the number of triangles that can be formed using the given edges. We know that we can form a triangle with edges `a`, `b`, and `c`(in ascending order of length) if the following expression evaluates to true: `a + b > c`. We could brute force the problem by evaluating this expression for each and every triple of edges in `nums`, but a faster approach exists(obviously).  
+First, we notice that there is an inequality in the expression. This means that, under certain circumstances, we can make claims about the values that will always be true. For example, if we know all three values, we can say that the expression evaluates to true for *any* value greater than `b` and less than or equal to `c` when it is replaced with `b`. If we can quickly count the number of said values in `nums`(allowing us to 'greedily' take all values), we can avoid having to examine all possible triples thereby bringing down the time complexity.  
+We can easily implement this by simply pre-sorting `nums`. After selecting two 'candidate' edges, we search the remaining edges using binary search for the shortest edge that can form a triangle with the other two. Since we know that any edge equal to or longer in length than the found edge and equal to or shorter than the longest edge of the selected pair can also be used to form a triangle, and the list of edges is sorted in ascending order of edge lengths, counting the number of valid edges is trivial.  
+
+#### Conclusion
+The time complexity of this solution is $O(n^2\log n)$, where $n$ is the length of `nums`. Sorting `nums` takes $O(n\log n)$ time. A single binary search on `nums` completes in $O(\log n)$ time. Since there are $O(n^2)$ possible pairs of edges in `nums`, and a binary search is performed for each pair, the counting step will take $O(n^2\log n)$ time to run. The space complexity is $O(n)$, due to the sorting step.  
+  
+
+### `solution_2.py`
+In the previous solution, we had selected edges from either side of the sorted `nums` array. This meant that we had to add additional logic for defining the search space for each binary search run, as it was 'sandwitched' between the selected values. We can simplify this logic by choosing `c` as the variable instead of `b`; that is, we search `nums` for the smallest value for `c` that would violate the condition `a + b > c`(where `a <= b <= c`). An added benefit to this approach is that we can now sequentially scan `nums` to find the first invalid edge instead of performing a binary search. Since we are evaluating `a + b > c`, and it is guaranteed that `a <= b <= c`, we know that an invalid value for edge `c` is somewhere towards the right of `c` since `nums` is sorted in ascending order.  
+This time, edge `a` will be selected in the outer for loop, and edge `b` will be selected in the inner for loop. Edge `c` will be manually chosen, with its position being maintained while we examine each edge `a`. When a new edge is chosen for edge `b`, we walk the rest of the list until we find an edge that violates the condition previously described. We then compute the number of edges that *satisfies* the condition using the indices of edge `b` and first invalid `c`.   
+
+#### Conclusion
+This solution has a time complexity of $O(n^2)$. While we examine all possible pairs of edges like the previous solution, we iterate over `nums` instead of performing a binary search. This iteration is amortized over the inner for loop, which means that it contributes $O(1)$ to the overall time complexity. The space complexity is identical to the previous solution.  
+
