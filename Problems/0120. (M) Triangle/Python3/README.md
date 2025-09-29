@@ -17,8 +17,8 @@ The time and space complexity of this solution are identical to the previous sol
 
 
 ### `solution_3.py`
-  
+The previous solution can be further optimized in terms of space, by realizing that `f(r, c)` only depends on the values in row `r+1`. `dp` can be 'collapsed' vertically into 2 1D lists `dp1` and `dp2`. `dp1` will contain the intermediate values pertaining to the current row `i`, while `dp2` will contain the values for the `i+1`-th row. The tabulation process is identical to the previous solution, except that we 'swap' `dp1` and `dp2` after tabulating each row.  
 
 #### Conclusion
-  
+The time complexity is identical to the previous solution, and the space complexity is $O(n)$.  
 
