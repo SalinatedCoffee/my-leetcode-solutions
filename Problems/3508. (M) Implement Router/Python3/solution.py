@@ -1,15 +1,13 @@
 class Router:
+  # double ended queue with dictionaries and sets
   def __init__(self, memoryLimit: int):
     self._cap = memoryLimit
     self._memory = deque()
-    # TODO: rethink packet group data structure
-    # if we use queues we can't run binary search
-    # if we use lists we can't quickly pop items
+    # maps destination to list of corresponding packets in insertion order
     self._dest_packet_list = defaultdict(list)
     self._packets = set()
 
   def addPacket(self, source: int, destination: int, timestamp: int) -> bool:
-    # guaranteed that timestamp is non-decreasing across calls
     if (source, destination, timestamp) in self._packets:
       return False
     if len(self._memory) == self._cap:
@@ -29,7 +27,6 @@ class Router:
     return list(res)
 
   def getCount(self, destination: int, startTime: int, endTime: int) -> int:
-    # return number of packets in memory with destination and timestamp between range(inclusive)
     if destination not in self._dest_packet_list:
       return 0
     packets = self._dest_packet_list[destination]
