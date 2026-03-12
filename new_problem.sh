@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 # TODO: Add support for adding new language to solved problem
+# TODO: Allow reference by problem number only for solved problems
 
 # print usage
 if [[ ( $@ == "--help" ) || ( $@ == "-h" ) ]]
 then
-  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language (Python3|Java|MySQL|JS)]"
+  echo "Usage: $0 [number] [difficulty (E|M|H)] [title] [language (Python3|Java|MySQL|JS|C)]"
   exit 0
 fi
 
@@ -25,7 +26,7 @@ case $# in
   ;;
   *)
     echo "Expected 3-4 arguments, got $# instead"
-    echo "Usage: $0 [number] [difficulty(E|M|H)] [title] [language (Python3|Java|MySQL)]"
+    echo "Usage: $0 [number] [difficulty(E|M|H)] [title] [language (Python3|Java|MySQL|JS|C)]"
     exit 0
   ;;
 esac
@@ -72,10 +73,13 @@ case $lang in
   "JavaScript")
     ext="js"
   ;;
+  "C")
+    ext="c"
+  ;;
 esac
 touch "$path/solution.$ext"
 
-# for now, add expanations for all languages other than Java
+# for now, copy template readme for all non-Java languages
 if ! [[ $ext == "java" ]]
 then
   touch "$path/README.md"
